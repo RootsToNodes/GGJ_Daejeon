@@ -21,8 +21,8 @@ public class Node : MonoBehaviour
 
         hp = 10;
 
-        turret.Initialization();
-        barrier.Initialization();
+        turret.Initialization(this);
+        barrier.Initialization(this);
         
         SetEvents();
     }
