@@ -5,15 +5,10 @@ using UnityEngine;
 
 public class test : MonoBehaviour
 {
+    AudioList myAudio = AudioList.Attack;
     // Start is called before the first frame update
     void Start()
     {
-        DataManager.GetInstance().GetMoney(5);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SoundManager.PlaySound(myAudio);
     }
 }
