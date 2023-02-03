@@ -18,6 +18,6 @@ public class Tree : MonoBehaviour
     public void CreateNewNode(Node parent)
     {
         roots = Instantiate(originPrefab);
-        roots.Initialization(parent);
+        roots.Initialization(parent, null);
     }
 }
