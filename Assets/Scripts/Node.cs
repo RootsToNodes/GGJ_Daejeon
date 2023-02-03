@@ -1,25 +1,42 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.PlayerLoop;
+
+public class NodeStatus
+{
+    public int attackPower;
+    public int attackSpeed;
+    public int defense;
+
+    public static NodeStatus operator + (NodeStatus a, NodeStatus b)
+    {
+       var status =  new NodeStatus();
+       status.attackPower = a.attackPower + b.attackPower;
+       status.attackSpeed = a.attackSpeed + b.attackSpeed;
+       status.defense = a.defense + b.defense;
+
+       return status;
+    }
+}
 
 public class Node : MonoBehaviour
 {  
     [SerializeField] private Turret turret;
     [SerializeField] private Barrier barrier;
 
-    public Node parent { get; private set; }
-    public float hp { get; private set; }
-    
-    private readonly UnityEvent<int> onHealing = new UnityEvent<int>();
+    private NodeStatus status;
+    public NodeStatus currentStatus { get; private set; }
 
-    public void Initialization(Node parent)
+    public Node parent { get; private set; }
+    public float hp { get; set; }
+
+
+    private readonly UnityEvent<int> onHealing = new UnityEvent<int>();
+    
+    public void Initialization(Node parent, NodeStatus status)
     {
         this.parent = parent;
-
-        hp = 10;
+        this.status = status;
+        currentStatus = CalculateStatus(status);
 
         turret.Initialization(this);
         barrier.Initialization(this);
@@ -33,5 +50,12 @@ public class Node : MonoBehaviour
         
         onHealing.AddListener(turret.OnHealing);
         onHealing.AddListener(barrier.OnHealing);
+    }
+
+    private NodeStatus CalculateStatus(NodeStatus status)
+    {
+        status += this.status;
+
+        return parent != null ? parent.CalculateStatus(status) : status;
     }
 }
