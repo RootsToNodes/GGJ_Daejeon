@@ -13,17 +13,17 @@ public class Node : MonoBehaviour
     public Node parent { get; private set; }
     public float hp { get; private set; }
     
-    
-    private Tree tree;
     private readonly UnityEvent<int> onHealing = new UnityEvent<int>();
 
-    public void Initialization(Node parent, Tree tree)
+    public void Initialization(Node parent)
     {
         this.parent = parent;
-        this.tree = tree;
 
         hp = 10;
 
+        turret.Initialization();
+        barrier.Initialization();
+        
         SetEvents();
     }
 
