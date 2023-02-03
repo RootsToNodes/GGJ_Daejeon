@@ -1,24 +1,37 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class Enemy : MonoBehaviour
 {
-    private int hp;
-    private int damage;
-    private float moveSpeed;
 
-    public int Hp { get { return hp; } set { hp = value; } }
-    public int Damage { get { return damage; } set { damage *= value; } }
+    private float hp;
+    private float damage;
+    private float moveSpeed;
+    
+
+    public float Hp { get { return hp; } set { hp = value; } }
+    public float Damage { get { return damage; } set { damage *= value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
     private EnemyData enemyData;
 
     public EnemyData EnemyData { get { return enemyData; } set { enemyData = value; } }
 
-    Node destination;
+    Node currentNode;
+    Node nextTargetNode;
 
+
+    public void SetFisrtNode(Node node)
+    {
+        currentNode = node;
+        SetNextNode();
+    }
+    private void Start()
+    {
+    }
     private void Update()
     {
         MoveToNode();
@@ -29,24 +42,31 @@ public class Enemy : MonoBehaviour
         Damage = enemyData.Damage;
         MoveSpeed = enemyData.MoveSpeed;
     }
+    private void SetNextNode()
+    {
+        nextTargetNode = currentNode.parent;
+    }
+    public void SetNullNode()
+    {
+        nextTargetNode = null;
+        // 노드가 끊긴 후는 어떻게 처리할까?
+    }
 
     private void MoveToNode()
     {
-        if (destination == null)
+        if (currentNode == null)
         {
-            FindNode();
+            currentNode = nextTargetNode;
+            SetNextNode();
         }
-        transform.Translate(destination.transform.position * Time.deltaTime * enemyData.MoveSpeed);
+        transform.Translate(currentNode.transform.position * Time.deltaTime * enemyData.MoveSpeed);
     }
-    private void FindNode()
-    {
-        //destination = ; 델리게이트 또는 값 받아오기
-    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Object"))
         {
-            // attack 구현 딜레이 포함
+            collision.gameObject.GetComponent<NodeObject>().OnDamage(Damage);
         }
     }
 

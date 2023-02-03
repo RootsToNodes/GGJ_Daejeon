@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -30,6 +31,8 @@ public class Node : MonoBehaviour
 
     public Node parent { get; private set; }
     public List<Node> children = new List<Node>();
+
+   
 
     public float hp { get; set; }
 

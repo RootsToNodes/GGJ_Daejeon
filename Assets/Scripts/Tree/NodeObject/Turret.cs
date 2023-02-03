@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Turret : NodeObject
 {
+
     public override void OnDamage(int amount)
     {
     }
