@@ -27,6 +27,7 @@ public class Node : MonoBehaviour
     public NodeStatus currentStatus { get; private set; }
 
     public Node parent { get; private set; }
+    
     public float hp { get; set; }
 
 
