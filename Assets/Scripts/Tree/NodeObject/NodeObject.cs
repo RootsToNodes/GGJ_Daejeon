@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class NodeObject : MonoBehaviour
 {
+
     public float hp { get; private set; }
 
     private Node node;
@@ -14,7 +16,7 @@ public abstract class NodeObject : MonoBehaviour
         this.node = node;
     }
 
-
     public abstract void OnDamage(int amount);
     public abstract void OnHealing(int amount);
+
 }
