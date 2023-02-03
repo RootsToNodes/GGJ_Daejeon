@@ -49,13 +49,13 @@ public class Tree : MonoBehaviour
         Vector2 curNodePos = curNode.transform.position;
 
         //var length = space.x * (treeLevel - level);
-        var length = Mathf.Pow(space.x, (treeLevel - level) + 1);
+        var length = Mathf.Pow(space.y, (treeLevel - level) + 1);
         var unit = curNode.children.Count == 1 ? 0 : length / (float) (curNode.children.Count - 1);
 
         for (int i = 0; i < curNode.children.Count; i++)
         {
             var child = curNode.children[i];
-            var pos = new Vector2(-length * 0.5f + unit * i, space.y);
+            var pos = new Vector2(space.x,-length * 0.5f + unit * i);
 
             child.transform.position = curNodePos + pos;
             child.SetLine();
