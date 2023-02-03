@@ -37,6 +37,7 @@ public class DataManager : Manager<DataManager>
         {
             resourse.money -= money;
             isChecked = true;
+            PrintResource();
         }
         else
         {
@@ -52,6 +53,8 @@ public class DataManager : Manager<DataManager>
             resourse.money -= money;
             resourse.gas -= gas;
             isChecked = true;
+            PrintResource();
+
         }
         else
         {
