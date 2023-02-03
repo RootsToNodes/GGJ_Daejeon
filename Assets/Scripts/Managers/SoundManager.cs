@@ -14,15 +14,16 @@ public class SoundManager : Manager<SoundManager>
 {
     [SerializeField]
     AudioSource[] audioSource;
-
     public SoundManager()
     {
-        GetInstance();
+        Debug.Log(this.GetType().Name + ": 초기화 완료");
+        audioSource = new AudioSource[(System.Enum.GetValues(typeof(AudioList)).Length)];
+        // 개체 어떻게 가져올지?
     }
 
-    public void PlaySound(AudioList audio)
+    public static void PlaySound(AudioList audio)
     {
-        audioSource[(int)audio].Play();
+        GetInstance().audioSource[(int)audio].Play();
     }
     
 }

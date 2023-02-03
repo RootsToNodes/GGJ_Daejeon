@@ -20,48 +20,52 @@ public class DataManager : Manager<DataManager>
     bool isChecked;
     public DataManager()
     {
-        GetInstance();
+        Debug.Log(this.GetType().Name + ": ÃÊ±âÈ­ ¿Ï·á");
         resourse = startResourse;
     }
-    public void GetMoney(int money) // ÀÚ¿ø È¹µæ
+    public static void GetMoney(int money) // ÀÚ¿ø È¹µæ
     {
-        resourse.money += money;
+        GetInstance().resourse.money += money;
+        GetInstance().PrintResource();
+
     }
-    public void GetGas(int gas)
+    public static void GetGas(int gas)
     {
-        resourse.gas += gas;
+        GetInstance().resourse.gas += gas;
+        GetInstance().PrintResource();
+
     }
-    public bool CheckResource(int money)
+    public static bool CheckResource(int money)
     {
-        if (resourse.money > money)
+        if (GetInstance().resourse.money > money)
         {
-            resourse.money -= money;
-            isChecked = true;
-            PrintResource();
+            GetInstance().resourse.money -= money;
+            GetInstance().isChecked = true;
+            GetInstance().PrintResource();
         }
         else
         {
-            isChecked = false;
-            SendError();
+            GetInstance().isChecked = false;
+            GetInstance().SendError();
         }
-        return isChecked;
+        return GetInstance().isChecked;
     }
-    public bool CheckResource(int money, int gas)
+    public static bool CheckResource(int money, int gas)
     {
-        if ((resourse.money > money) && (resourse.gas > gas))
+        if ((GetInstance().resourse.money > money) && (GetInstance().resourse.gas > gas))
         {
-            resourse.money -= money;
-            resourse.gas -= gas;
-            isChecked = true;
-            PrintResource();
+            GetInstance().resourse.money -= money;
+            GetInstance().resourse.gas -= gas;
+            GetInstance().isChecked = true;
+            GetInstance().PrintResource();
 
         }
         else
         {
-            isChecked = false;
-            SendError();
+            GetInstance().isChecked = false;
+            GetInstance().SendError();
         }
-        return isChecked;
+        return GetInstance().isChecked;
     }
 
     private void SendError()
