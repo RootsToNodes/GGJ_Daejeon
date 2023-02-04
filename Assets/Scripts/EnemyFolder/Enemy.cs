@@ -11,9 +11,11 @@ public class Enemy : MonoBehaviour
     private int hp;
     private int damage;
     private float moveSpeed;
+    private string enemyName;
+    private float enemyWaitTime = 5f;
     
 
-    public int Hp { get { return hp; } set { hp = value; } }
+    public int Hp { get { return hp; }}
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
     private EnemyData enemyData;
@@ -29,18 +31,13 @@ public class Enemy : MonoBehaviour
         currentNode = node;
         SetNextNode();
     }
-    private void Start()
-    {
-    }
-    private void Update()
-    {
-        MoveToNode();
-    }
+
     public void Initialize()
     {
-        Hp = enemyData.Hp;
-        Damage = enemyData.Damage;
-        MoveSpeed = enemyData.MoveSpeed;
+        hp = enemyData.Hp;
+        damage = enemyData.Damage;
+        moveSpeed = enemyData.MoveSpeed;
+        enemyName = enemyData.name;
     }
     private void SetNextNode()
     {
@@ -52,6 +49,10 @@ public class Enemy : MonoBehaviour
         // 노드가 끊긴 후는 어떻게 처리할까?
     }
 
+    public void StartMove()
+    {
+        InvokeRepeating("MoveToNode", 2f, 0.01f);
+    }
     private void MoveToNode()
     {
         if (currentNode == null)
@@ -59,14 +60,44 @@ public class Enemy : MonoBehaviour
             currentNode = nextTargetNode;
             SetNextNode();
         }
-        transform.Translate(currentNode.transform.position * Time.deltaTime * enemyData.MoveSpeed);
+        transform.position = Vector3.MoveTowards(this.transform.position, currentNode.transform.position, Time.deltaTime * moveSpeed);
+    }
+    
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Object"))
+    //    {
+    //        collision.gameObject.GetComponent<NodeObject>().OnDamage(Damage);
+    //    }
+    //}
+
+
+    public void GetDamaged()
+    {
+        hp -= damage;
+        if (hp <= 0)
+        {
+            Die();
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void Die()
     {
-        if (collision.gameObject.CompareTag("Object"))
+        switch (enemyName)
         {
-            collision.gameObject.GetComponent<NodeObject>().OnDamage(Damage);
+            case "normal":
+                DataManager.GetMoney(5);
+                break;
+            case "strong":
+                DataManager.GetMoney(10);
+                DataManager.GetGas(5);
+                break;
+            case "range":
+                DataManager.GetMoney(7);
+                break;
+            default:
+                break;
         }
     }
 
