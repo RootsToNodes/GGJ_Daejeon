@@ -96,8 +96,8 @@ GameObject:
   - component: {fileID: 333972270684799447}
   - component: {fileID: 860176105081091347}
   - component: {fileID: 2558348018679205737}
-  - component: {fileID: 7308679795631859689}
   - component: {fileID: 5700444789017317084}
+  - component: {fileID: 7988639219168411120}
   m_Layer: 7
   m_Name: Node
   m_TagString: Untagged
@@ -192,22 +192,6 @@ MonoBehaviour:
   turret: {fileID: 4862752527056931053}
   barrier: {fileID: 6672958088294035254}
   children: []
---- !u!58 &7308679795631859689
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1087432748645125447}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!120 &5700444789017317084
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -307,6 +291,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!135 &7988639219168411120
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087432748645125447}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1514763938336879064
 GameObject:
   m_ObjectHideFlags: 0
