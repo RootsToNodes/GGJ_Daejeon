@@ -1320,26 +1320,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 497872453}
-    - target: {fileID: 756949464, guid: b1295d619e1294af9a8da72e730fd99f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 1602817696}
-    - target: {fileID: 756949464, guid: b1295d619e1294af9a8da72e730fd99f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 81168019}
-    - target: {fileID: 756949464, guid: b1295d619e1294af9a8da72e730fd99f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: WaveStart
-      objectReference: {fileID: 0}
-    - target: {fileID: 756949464, guid: b1295d619e1294af9a8da72e730fd99f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 756949464, guid: b1295d619e1294af9a8da72e730fd99f, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 5903722557477341826, guid: b1295d619e1294af9a8da72e730fd99f,
         type: 3}
       propertyPath: m_AnchorMax.y
