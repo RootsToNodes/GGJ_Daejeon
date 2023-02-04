@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -22,6 +23,8 @@ public struct NodeStatus
 
 public class Node : MonoBehaviour
 {
+    private const float nodeAnimationSpeed  = 3;
+
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Turret turret;
     [SerializeField] private Barrier barrier;
@@ -32,15 +35,31 @@ public class Node : MonoBehaviour
     public Node parent { get; private set; }
     public List<Node> children = new List<Node>();
 
-   
-
     public float hp { get; set; }
-
 
     private readonly UnityEvent<int> onHealing = new UnityEvent<int>();
 
+    public Vector2 destPosition { get; private set; }
+
+    private void Update()
+    {
+        var dir = ((Vector3) destPosition - transform.position).normalized;
+        transform.position += dir * nodeAnimationSpeed * Time.deltaTime;
+    
+        if (parent)
+        {
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, parent.transform.position);
+        }
+    }
+
     public void Initialization(Node parent, NodeStatus status)
     {
+        if (parent)
+        {
+            transform.position = parent.transform.position;
+        }
+
         this.parent = parent;
         this.status = status;
         currentStatus = CalculateStatus(status);
@@ -89,9 +108,8 @@ public class Node : MonoBehaviour
         children.Remove(child);
     }
 
-    public void SetLine()
+    public void SetPosition(Vector2 pos)
     {
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, parent.transform.position);
+        destPosition = pos;
     }
 }

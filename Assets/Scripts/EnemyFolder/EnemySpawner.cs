@@ -9,94 +9,58 @@ enum EnemyType
     strong,
     range
 }
-
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField]
     List<EnemyData> enemydata = new List<EnemyData>();
-    List<Enemy> enemiesList = new List<Enemy>();
-    List<Enemy> remainEnemiseList= new List<Enemy>();
-
+    List<Enemy> enemies = new List<Enemy>();
     WaitForSeconds wait;
     public GameObject enemyPrefab;
 
-    readonly float time = 1;
+    float time = 5;
     int damageBuffValue = 1;
 
-    public delegate List<Node> GetNodeDelegate();
-    public GetNodeDelegate GetLeafNode;
-    List<Node> leafNodeList;
+    private List<Node> leafNodeList;
 
-    Dictionary<int, int> waveLevelDictionary = new Dictionary<int, int>();
-    int waveLevel = 0;
-
-    public void SetNullNode() // ÇØ´ç ¸Þ¼Òµå´Â Æ®¸®ÀÇ °¡À§ÀÚ¸£±â »ç¿ë½Ã ¹ßµ¿
+    public void SetLeafNodeList(List<Node> leafNodes)
     {
-        for (int i = 0; i < enemiesList.Count; i++)
-        {
-            enemiesList[i].SetNullNode();
-        }
+        leafNodeList = leafNodes;
     }
-    public void FindNode()
+    
+    public void SetNullNode() // ï¿½Ø´ï¿½ ï¿½Þ¼Òµï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ßµï¿½
     {
-        leafNodeList = GetLeafNode();
-        Debug.Log(leafNodeList);
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].SetNullNode();
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
         wait = new WaitForSeconds(time);
-        waveLevelDictionary.Add(1, 5);
-        waveLevelDictionary.Add(2, 10);
-        waveLevelDictionary.Add(3, 15);
-        waveLevelDictionary.Add(4, 20);
-        waveLevelDictionary.Add(5, 40);
-        waveLevelDictionary.Add(6, 45);
-        waveLevelDictionary.Add(7, 50);
-        waveLevelDictionary.Add(8, 55);
-        waveLevelDictionary.Add(9, 60);
-        waveLevelDictionary.Add(10, 90);
-    }
-
-    public void AttackStart()
-    {
-        FindNode();
-        waveLevel++;
         StartCoroutine(GenerateEnemy());
     }
 
     IEnumerator GenerateEnemy()
     {
-        remainEnemiseList.Clear();
         while (true)
         {
-            var _randomNum = System.Enum.GetValues(typeof(EnemyType)).Length;
             var enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity).GetComponent<Enemy>();
+            var _randomNum = System.Enum.GetValues(typeof(EnemyType)).Length;
+            enemies.Add(enemy);
             enemy.EnemyData = enemydata[_randomNum-1];
-            enemy.Initialize();
-            enemiesList.Add(enemy);
-            remainEnemiseList.Add(enemy);
             enemy.SetFisrtNode(leafNodeList[Random.Range(0, leafNodeList.Count)]);
-            // ¿¡³×¹ÌÀÇ ¼º´ÉÀ» ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ®·Î Ã³¸®ÇØ¾ßÇÔ.
-            if (remainEnemiseList.Count > waveLevelDictionary[waveLevel])
-            {
-                for (int i = 0; i < remainEnemiseList.Count-1; i++)
-                {
-                    remainEnemiseList[i].StartMove();
-                }
-                Debug.Log(remainEnemiseList.Count-1);
-                yield break;
-            }
+            // ï¿½ï¿½ï¿½×¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½Íºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½.
             yield return wait;
         }
     }
 
-    void EnemyBuff() // ½ºÅÈ¿¡ µû¸¥ ºÐ±â ±¸ÇöÇØ¾ßÇÔ
+    void EnemyBuff() // ï¿½ï¿½ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
     {
-        for (int i = 0; i < enemiesList.Count; i++)
+        for (int i = 0; i < enemies.Count; i++)
         {
-            enemiesList[i].Damage = damageBuffValue;
+            enemies[i].Damage = damageBuffValue;
         }
     }
 }
