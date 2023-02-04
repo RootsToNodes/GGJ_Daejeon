@@ -112,4 +112,20 @@ public class Node : MonoBehaviour
     {
         destPosition = pos;
     }
+
+    public void OnDamage(float damage)
+    {
+        if (barrier.hp > 0)
+        {
+            
+        }
+        else if (turret.hp > 0)
+        {
+            
+        }
+        else
+        {
+            
+        }
+    }
 }

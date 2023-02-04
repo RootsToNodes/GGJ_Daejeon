@@ -536,6 +536,7 @@ MonoBehaviour:
   - {fileID: 589804404}
   - {fileID: 1602817696}
   - {fileID: 81168019}
+  cameraMove: {fileID: 1684035940}
   minimapCamera: {fileID: 1342778155}
   selectPopup: {fileID: 1392952992}
 --- !u!4 &497872454
@@ -692,7 +693,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: e6c2e5db8b8ca4686bc2428444425031, type: 2}
   m_TargetDisplay: 0
@@ -1219,11 +1220,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b940258e31f34eeca7975650d271703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  borderSpace: 3
   minZoomSize: -30
   maxZoomSize: -5
   zoomSpeed: 1
-  dragSpeed: 0.01
-  focusSpeed: 0
+  dragSpeed: 0.003
+  focusSpeed: 5
+  focusAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1840045454
 GameObject:
   m_ObjectHideFlags: 0

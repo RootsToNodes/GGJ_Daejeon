@@ -17,12 +17,12 @@ public class MinimapCamera : MonoBehaviour
         camera = GetComponent<Camera>();
     }
 
-    public void UpdateMiniMapCamera(Tree tree)
+    public void UpdateMiniMapCamera(Rect treeArea)
     {
-        Vector3 pos = tree.treeArea.center;
+        Vector3 pos = treeArea.center;
         pos.z = -10;
         
-        var size = Mathf.Max(tree.treeArea.width, tree.treeArea.height) * 0.5f;
+        var size = Mathf.Max(treeArea.width, treeArea.height) * 0.5f;
         
         StopAllCoroutines();
         StartCoroutine(MiniMapMove(pos,Mathf.Max(minCamsize, size + border)));

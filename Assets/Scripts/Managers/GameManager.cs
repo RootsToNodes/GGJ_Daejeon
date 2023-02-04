@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Tree tree;
     [SerializeField] EnemySpawner[] enemySpawner;
 
+    [SerializeField] private CameraMovement cameraMove;
     [SerializeField] private MinimapCamera minimapCamera;
     
     [SerializeField] private SelectPopup selectPopup;
@@ -32,16 +33,17 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero,
-                float.PositiveInfinity, nodeLayerMask);
-
-            if (hit.collider != null && hit.collider.TryGetComponent(typeof(Node), out var node))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit, Mathf.Infinity,nodeLayerMask))
             {
-                selectPopup.SetTargetNode((Node) node);
-            }
-            else
-            {
-                selectPopup.OnClickClose();
+                if (hit.collider.TryGetComponent(typeof(Node), out var node))
+                {
+                    selectPopup.SetTargetNode((Node) node);
+                    cameraMove.FocusToTarget(node.transform.position);
+                }
+                else
+                {
+                    selectPopup.OnClickClose();
+                }
             }
         }
     }
@@ -51,7 +53,8 @@ public class GameManager : MonoBehaviour
         tree.CreateNewNode(node, new NodeStatus());
         SetSpawnerLeafNodeList();
         
-        minimapCamera.UpdateMiniMapCamera(tree);
+        minimapCamera.UpdateMiniMapCamera(tree.treeArea);
+        cameraMove.SetBorder(tree.treeArea);
     }
     
     private void SetSpawnerLeafNodeList()
