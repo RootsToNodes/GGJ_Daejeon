@@ -13,7 +13,9 @@ public class Enemy : MonoBehaviour
     private float moveSpeed;
     private string enemyName;
     private float enemyWaitTime = 5f;
-    
+
+    private float destinationDistance;
+    private float minRange = 0.5f;
 
     public int Hp { get { return hp; }}
     public int Damage { get { return damage; } set { damage += value; } }
@@ -60,10 +62,22 @@ public class Enemy : MonoBehaviour
             currentNode = nextTargetNode;
             SetNextNode();
         }
-        transform.position = Vector3.MoveTowards(this.transform.position, currentNode.transform.position, Time.deltaTime * moveSpeed);
+        transform.position = Vector3.MoveTowards(this.transform.position, currentNode.transform.position, Time.deltaTime * moveSpeed * 20);
+        CheckDistance();
     }
-    
+    private void Update()
+    {
+        
+    }
 
+    void CheckDistance()
+    {
+        destinationDistance =  Vector3.Distance(transform.position ,currentNode.transform.position);
+        if (destinationDistance > minRange)
+        {
+            
+        }
+    }
     //private void OnCollisionEnter(Collision collision)
     //{
     //    if (collision.gameObject.CompareTag("Object"))

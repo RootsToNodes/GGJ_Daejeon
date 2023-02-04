@@ -59,32 +59,35 @@ public class EnemySpawner : MonoBehaviour
 
     public void AttackStart()
     {
-        FindNode();
         waveLevel++;
         StartCoroutine(GenerateEnemy());
     }
 
     IEnumerator GenerateEnemy()
     {
+        Debug.Log(leafNodeList.Count);
         remainEnemiseList.Clear();
         while (true)
         {
             var _randomNum = System.Enum.GetValues(typeof(EnemyType)).Length;
-            var enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity).GetComponent<Enemy>();
+            var _randomPosX = Random.Range(-1f, 1f);
+            var _randomPosY = Random.Range(-1f, 1f);
+
+            var pos = new Vector3(transform.position.x + _randomPosX, transform.position.y + _randomPosY);
+            var enemy = Instantiate(enemyPrefab, pos, Quaternion.identity).GetComponent<Enemy>();
             enemy.EnemyData = enemydata[_randomNum-1];
             enemy.Initialize();
             enemiesList.Add(enemy);
             remainEnemiseList.Add(enemy);
-            enemy.SetFisrtNode(leafNodeList[Random.Range(0, leafNodeList.Count)]);
             
-            // ���׹��� ����� ��ũ���ͺ� ����Ʈ�� ó���ؾ���.
-            if (remainEnemiseList.Count > waveLevelDictionary[waveLevel])
+            if (remainEnemiseList.Count >= waveLevelDictionary[waveLevel])
             {
-                for (int i = 0; i < remainEnemiseList.Count-1; i++)
+                for (int i = 0; i < remainEnemiseList.Count; i++)
                 {
+                    remainEnemiseList[i].SetFisrtNode(leafNodeList[Random.Range(0, leafNodeList.Count)]);
                     remainEnemiseList[i].StartMove();
                 }
-                Debug.Log(remainEnemiseList.Count-1);
+                Debug.Log(remainEnemiseList.Count);
                 yield break;
             }
             yield return wait;

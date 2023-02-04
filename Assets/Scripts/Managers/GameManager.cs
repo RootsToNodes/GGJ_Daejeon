@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Tree tree;
     [SerializeField] EnemySpawner[] enemySpawner;
 
+    private void Start()
+    {
+        SetSpawnerLeafNodeList();
+    }
     private void Update()
     {
         CheckInput();
