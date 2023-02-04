@@ -64,17 +64,14 @@ public class EnemySpawner : MonoBehaviour
             var _randomPosY = Random.Range(-1f, 1f);
 
             var pos = new Vector3(transform.position.x + _randomPosX, transform.position.y + _randomPosY);
-            var enemy = Instantiate(enemyPrefab, pos, Quaternion.identity).GetComponent<Enemy>();
             var enemyData = enemydata[Random.Range(0,_randomNum-1)];
+            var enemy = Instantiate(enemyData.EnemyPrefab, pos, Quaternion.identity).GetComponent<Enemy>();
             enemy.Initialize(enemyData, OnEnemyDie);
 
-            Debug.Log(enemy.Name);
-            if (enemy.Name== "strong")
-            {
-                enemy.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-            }
+            enemiesList.Add(enemy);
+            remainEnemiseList.Add(enemy);
+            
 
-            enemiseList.Add(enemy);
             
             if (enemiseList.Count >= waveLevelDictionary[waveLevel])
             {

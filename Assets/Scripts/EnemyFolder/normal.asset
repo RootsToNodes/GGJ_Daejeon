@@ -17,3 +17,7 @@ MonoBehaviour:
   attackSpeed: 1
   damage: 2
   moveSpeed: 1
+  enemyPrefab: {fileID: 2795750062524328895, guid: fb5ade2e9e1ac514bbed8973ffc90e65,
+    type: 3}
+  enemyAudio: 2
+  enemyMoney: 10

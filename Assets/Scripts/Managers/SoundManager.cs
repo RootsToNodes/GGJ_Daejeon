@@ -6,10 +6,11 @@ using UnityEngine;
 public enum AudioEnum : int
 {
     Hited,
-    Attack,
+    TurretAttack,
     EnemyAttack,
+    EnemyHited,
     Defeat,
-    StartSound
+    StartSound,
 }
 public class SoundManager : Manager<SoundManager>
 {

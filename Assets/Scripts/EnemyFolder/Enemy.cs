@@ -11,22 +11,24 @@ using Random = UnityEngine.Random;
 public class Enemy : MonoBehaviour
 {
     private const float TempSpeedValue = 1;
-    
-    private AudioEnum sound = AudioEnum.StartSound;
+
 
     private float hp;
     private int damage;
     private float attackSpeed;
     private float moveSpeed;
     private string enemyName;
+    private AudioEnum enemyAudio;
+    private int enemyMoney;
 
     [Header("���� �ּ� �Ÿ�")]
     public float attackRange = 0.5f;
     
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
+    public AudioEnum EnemyAudio { get { return enemyAudio; } set { EnemyAudio = value; } }
+    public int EnemyMoney { get { return enemyMoney; } set { enemyMoney = value; } }
     public string Name { get { return enemyName; }}
-
 
     private Node currentNode;
     private Node nextTargetNode;
@@ -46,11 +48,13 @@ public class Enemy : MonoBehaviour
         damage = enemyData.Damage;
         attackSpeed = enemyData.AttackSpeed;
         moveSpeed = enemyData.MoveSpeed;
-        enemyName = enemyData.name;
+        enemyMoney = enemyData.EnemyMoney;
+        enemyAudio = enemyData.EnemyAudio;
+        enemyName = enemyData.EnemyName;
 
+        SoundManager.PlaySound(enemyAudio);
         this.onDie = onDie;
         
-        SoundManager.PlaySound(sound);
     }
     
     public void SetFisrtNode(Node node)
