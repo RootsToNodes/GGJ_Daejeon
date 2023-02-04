@@ -7,18 +7,18 @@ using UnityEngine;
 public class Turret : NodeObject
 {
     [SerializeField] private Bullet bulletPrefab;
-    
+
     [SerializeField] private float radialFormAngle;
     [SerializeField] private float straightFormRange;
 
     [SerializeField] private Transform bulletStart;
     [SerializeField] private GameObject gun;
-    
+
     private Enemy targetEnemy;
     private float lastAttackTime;
 
     private bool isOn;
-    
+
     public override void OnDamage(int amount)
     {
     }
@@ -32,7 +32,7 @@ public class Turret : NodeObject
         isOn = enable;
         gun.SetActive(enable);
     }
-    
+
 
     private void Update()
     {
@@ -40,7 +40,7 @@ public class Turret : NodeObject
         {
             return;
         }
-        
+
         if (!targetEnemy)
         {
             targetEnemy = GameManager.instance.GetEnemyInRange(transform.position, node.currentStatus.shotRange);
@@ -49,13 +49,13 @@ public class Turret : NodeObject
         }
 
         var dir = (transform.position - targetEnemy.transform.position);
-        
+
         var curAngle = transform.rotation.eulerAngles.z;
-        var angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg -90;
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         var rotationDelta = node.currentStatus.rotationSpeed * Time.deltaTime;
 
-        transform.rotation = Quaternion.Euler(0, 0, Mathf.MoveTowardsAngle(curAngle,angle,rotationDelta));
-        
+        transform.rotation = Quaternion.Euler(0, 0, Mathf.MoveTowardsAngle(curAngle, angle, rotationDelta));
+
         if (lastAttackTime + node.currentStatus.attackSpeed < Time.time)
         {
             lastAttackTime = Time.time;
@@ -65,19 +65,40 @@ public class Turret : NodeObject
 
     private void FireBullet()
     {
-        var bulletform = node.currentStatus.bulletForm;
-        var bulletSpeed = node.currentStatus.bulletSpeed;
-        var bulletPower = node.currentStatus.bulletSpeed;
-        var bulletLifeTime = node.currentStatus.bulletLifeTime;
-        
-        for (int i = 0; i < node.currentStatus.bulletCount; i++)
-        {
-            var bullet = Instantiate(bulletPrefab);
-            
-            bullet.transform.position = bulletStart.position;
+        var bulletCount = node.currentStatus.bulletCount;
 
-            var dir = (bulletStart.position - transform.position).normalized;
-            bullet.Initialization(dir, bulletSpeed, bulletPower, bulletLifeTime);
+        var baseDir = (bulletStart.position - transform.position).normalized;
+
+        for (int i = 0; i < bulletCount; i++)
+        {
+            var pos = bulletStart.position;
+            var dir = baseDir;
+
+            switch (node.currentStatus.bulletForm)
+            {
+                case NodeStatus.BulletForm.Straight:
+                {
+                    var line = straightFormRange;
+                    line -= straightFormRange / bulletCount * i;
+
+                    pos += dir * line;
+                    break;
+                }
+                case NodeStatus.BulletForm.Radial:
+                {
+                    var angle = -radialFormAngle * 0.5f;
+                    angle += radialFormAngle / bulletCount * i;
+
+                    dir = Quaternion.Euler(0, 0, angle) * dir;
+                    break;
+                }
+                    ;
+            }
+
+            var bullet = Instantiate(bulletPrefab);
+            bullet.transform.position = pos;
+            bullet.Initialization(dir, node.currentStatus.bulletSpeed, node.currentStatus.attackPower,
+                node.currentStatus.bulletLifeTime);
         }
     }
 }

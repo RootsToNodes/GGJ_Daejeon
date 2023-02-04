@@ -1165,7 +1165,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4927373914041884550, guid: 7310b2202006242388a05040a917fc3d,
     type: 3}
   radialFormAngle: 45
-  straightFormRange: 3
+  straightFormRange: 1
   bulletStart: {fileID: 4604160551533413129}
   gun: {fileID: 4447878223033872952}
 --- !u!1 &9031858624775593946
