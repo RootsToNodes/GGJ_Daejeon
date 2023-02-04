@@ -7,63 +7,49 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private const float TempSpeedValue = 1;
+    
     private AudioEnum sound = AudioEnum.StartSound;
 
     private int hp;
     private int damage;
+    private float attackSpeed;
     private float moveSpeed;
     private string enemyName;
-    private float enemyWaitTime = 5f;
 
-    private float destinationDistance;
-    [Header("°ø°Ý ÃÖ¼Ò °Å¸®")]
-    public float minRange = 0.5f;
-
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ ï¿½Å¸ï¿½")]
+    public float attackRange = 0.5f;
 
 
     public int Hp { get { return hp; }}
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
-    private EnemyData enemyData;
+    
+    private Node currentNode;
+    private Node nextTargetNode;
 
-    public EnemyData EnemyData { get { return enemyData; } set { enemyData = value; } }
+    private bool canMoving = false;
+    private bool isAttacking = false;
 
-    Node currentNode;
-    Node nextTargetNode;
+    private float lastAttackTime;
 
-    void Update()
+    public void Initialize(EnemyData enemyData)
     {
-        if (temp_shake_intensity > 0 && isShaking == true)
-        {
-            transform.position = originPosition + Random.insideUnitSphere * temp_shake_intensity;
-            temp_shake_intensity -= shake_decay;
-        }
-        else
-        {
-            isShaking = false;
-        }
+        canMoving = false;
+        hp = enemyData.Hp;
+        damage = enemyData.Damage;
+        attackSpeed = enemyData.AttackSpeed;
+        moveSpeed = enemyData.MoveSpeed;
+        enemyName = enemyData.name;
+        
+        TestSound();
+        SoundManager.PlaySound(sound);
     }
-
+    
     public void SetFisrtNode(Node node)
     {
         currentNode = node;
         SetNextNode();
-    }
-
-    public void Initialize()
-    {
-        hp = enemyData.Hp;
-        damage = enemyData.Damage;
-        moveSpeed = enemyData.MoveSpeed;
-        enemyName = enemyData.name;
-        TestSound();
-        SoundManager.PlaySound(sound);
-    }
-
-    public void TestSound()
-    {
-        var random = Random.Range(1,System.Enum.GetValues(typeof(AudioEnum)).Length);
-        sound = (AudioEnum)(random-1);
     }
 
     private void SetNextNode()
@@ -73,39 +59,92 @@ public class Enemy : MonoBehaviour
     public void SetNullNode()
     {
         nextTargetNode = null;
-        // ³ëµå°¡ ²÷±ä ÈÄ´Â ¾î¶»°Ô Ã³¸®ÇÒ±î?
+        // ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Ä´ï¿½ ï¿½î¶»ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ò±ï¿½?
     }
 
     public void StartMove()
     {
-        InvokeRepeating("MoveToNode", 2f, 0.01f);
+        canMoving = true;
     }
-    private void MoveToNode()
+    
+    private void Update()
     {
-        if (currentNode == null)
+        if (canMoving)
         {
-            currentNode = nextTargetNode;
-            SetNextNode();
+            if (currentNode == null)
+            {
+                currentNode = nextTargetNode;
+                SetNextNode();
+                isAttacking = false;
+            }
+            
+            if (isAttacking)
+            {
+                AttackNode();
+            }
+            else
+            {
+                MoveToNode();
+            }
         }
-        transform.position = Vector3.MoveTowards(this.transform.position, currentNode.transform.position, Time.deltaTime * moveSpeed * 20);
-        destinationDistance = Vector3.Distance(transform.position, currentNode.transform.position);
-        if (destinationDistance <= minRange)
+
+        if (tempShakeIntensity > 0 && isShaking == true)
         {
-            CheckDistance();
+            transform.position = originPosition + Random.insideUnitSphere * tempShakeIntensity;
+            tempShakeIntensity -= shakeDecay;
         }
         else
         {
-            temp_shake_intensity = 0;
+            isShaking = false;
         }
     }
+
+    private void MoveToNode()
+    {
+        var dir = (transform.position - currentNode.transform.position);
+        var moveDelta = Time.deltaTime * moveSpeed * TempSpeedValue;
+        
+        transform.position = Vector3.MoveTowards(this.transform.position, currentNode.transform.position, moveDelta);
+        
+        float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle + 90);
+        
+        if (dir.sqrMagnitude <= attackRange * attackRange)
+        {
+            isAttacking = true;
+            lastAttackTime = Time.time;
+        }
+        else
+        {
+            tempShakeIntensity = 0;
+        }
+    }
+
+    private void AttackNode()
+    {
+        if (lastAttackTime + attackSpeed < Time.time)
+        {
+            lastAttackTime = Time.time;
+            
+            currentNode.OnDamage(damage);
+            
+            Shake();
+        }
+        
+        if ((transform.position - currentNode.transform.position).sqrMagnitude > attackRange * attackRange * 2)
+        {
+            isAttacking = false;
+        }
+    }
+    
+    
+    
     private Vector3 originPosition ;
-    public float shake_decay = 0.01f;
-    public float shake_intensity = .4f;
+    public float shakeDecay = 0.01f;
+    public float shakeIntensity = .4f;
     public bool isShaking = false;
 
-    private float temp_shake_intensity = 0;
-
-    
+    private float tempShakeIntensity = 0;
 
     public void Shake()
     {
@@ -113,24 +152,10 @@ public class Enemy : MonoBehaviour
         {
             isShaking = true;
             originPosition = transform.position;
-            temp_shake_intensity = shake_intensity;
+            tempShakeIntensity = shakeIntensity;
         }
     }
-    void CheckDistance()
-    {
-        
-        Shake();
-        // ¸ÕÁö ÀÌÆåÆ® Ãß°¡ÇÏ±â
-        // »ç¿îµå Ãß°¡ÇÏ±â
-    }
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Object"))
-    //    {
-    //        collision.gameObject.GetComponent<NodeObject>().OnDamage(Damage);
-    //    }
-    //}
-
+    
     public void GetDamaged()
     {
         hp -= damage;
@@ -158,16 +183,22 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
+    
+    public void TestSound()
+    {
+        var random = Random.Range(1,System.Enum.GetValues(typeof(AudioEnum)).Length);
+        sound = (AudioEnum)(random-1);
+    }
 
-    /*ÀûÀÌ °ø°ÝÇÏ´Â ½Ã³ª¸®¿À.
-    ÅÏ ¶Ç´Â ½Ã°£¿¡ µû¶ó ÀûÀÌ ÃÄµé¾î¿Â´Ù.
-    ÀûÀº Á¤ÇØÁø À§Ä¡¿¡¼­ spawner¸¦ ÅëÇØ »ý¼ºµÈ´Ù.
-    »ý¼ºµÉ¶§ ÀûÀÇ ½ºÅÈÀº µ¿ÀûÀ¸·Î »ý¼ºµÈ´Ù (°­ÇÑ °³Ã¼, ¾àÇÑ °³Ã¼)
-    ÀûÀº ¸®ÇÁ³ëµå¸¦ ÇâÇØ °ø°ÝÀ» °³½ÃÇÑ´Ù. -> ¸®ÇÁ³ëµå Å½»ö
+    /*ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½.
+    ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Äµï¿½ï¿½Â´ï¿½.
+    ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ spawnerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½.
+    ï¿½ï¿½ï¿½ï¿½ï¿½É¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼)
+    ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½
 
-    ÀûÀÌ ¸®ÇÁ³ëµå¿¡ ´êÀ»°æ¿ì ÇØ´ç ¿ÀºêÁ§Æ®¿¡ °ø°ÝÇÑ´Ù. (¹æ¾îº®, ³ëµå, ¶Ç´Â Æ÷Å¾)
-    ÀûÀÌ ³ëµå¸¦ °ø·«ÇÏ¸é ÀûÀÇ Ã¼·ÂÀÌ È¸º¹µÇ°í °³Ã¼¼ö°¡ Áõ°¡ÇÑ´Ù. (µ¥¹ÌÁöµµ Áõ°¡?)
-    ÀûÀÌ ·çÆ® ³ëµå¿¡ ´êÀ¸¸é °ÔÀÓÀÌ Á¾·áµÈ´Ù.
+    ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. (ï¿½ï¿½îº®, ï¿½ï¿½ï¿½, ï¿½Ç´ï¿½ ï¿½ï¿½Å¾)
+    ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½Ç°ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½?)
+    ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ® ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È´ï¿½.
     */
 
 }
