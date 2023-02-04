@@ -17,10 +17,10 @@ public class SoundManager : Manager<SoundManager>
     AudioSource audioSource;
     AudioClip[] audioClip;
     SoundStorage storage;
+
     public SoundManager()
     {
         Debug.Log(this.GetType().Name + ": 초기화 완료");
-        //audioSource = new AudioSource[(System.Enum.GetValues(typeof(AudioList)).Length)];
         storage = Camera.main.GetComponent<SoundStorage>();
         audioSource = storage.audioSources;
         audioClip = storage.audioClips;
