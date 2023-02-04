@@ -100,7 +100,7 @@ public class Enemy : MonoBehaviour
     }
     private Vector3 originPosition ;
     public float shake_decay = 0.01f;
-    public float shake_intensity = .4f;
+    public float shake_intensity = .2f;
     public bool isShaking = false;
 
     private float temp_shake_intensity = 0;

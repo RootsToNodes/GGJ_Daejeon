@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private SelectPopup selectPopup;
 
+    float distanceFromNode = 20f;
+
     private void Awake()
     {
         selectPopup.onClickAddChild = OnClickAddChild;
@@ -62,6 +64,7 @@ public class GameManager : MonoBehaviour
         foreach (var spawner in enemySpawner)
         {
             spawner.SetLeafNodeList(tree.GetLeafNodes());
+            spawner.transform.position = new Vector2(tree.treeArea.position.x + distanceFromNode, spawner.transform.position.y);
         }
     }
     
