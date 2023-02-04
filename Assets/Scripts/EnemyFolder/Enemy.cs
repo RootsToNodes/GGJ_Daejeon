@@ -8,14 +8,15 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private const float TempSpeedValue = 1;
-    
-    private AudioEnum sound = AudioEnum.StartSound;
+
 
     private int hp;
     private int damage;
     private float attackSpeed;
     private float moveSpeed;
     private string enemyName;
+    private AudioEnum enemyAudio;
+    private int enemyMoney;
 
     [Header("���� �ּ� �Ÿ�")]
     public float attackRange = 0.5f;
@@ -24,8 +25,9 @@ public class Enemy : MonoBehaviour
     public int Hp { get { return hp; }}
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
+    public AudioEnum EnemyAudio { get { return enemyAudio; } set { EnemyAudio = value; } }
+    public int EnemyMoney { get { return enemyMoney; } set { enemyMoney = value; } }
     public string Name { get { return enemyName; }}
-
 
     private Node currentNode;
     private Node nextTargetNode;
@@ -42,9 +44,11 @@ public class Enemy : MonoBehaviour
         damage = enemyData.Damage;
         attackSpeed = enemyData.AttackSpeed;
         moveSpeed = enemyData.MoveSpeed;
-        enemyName = enemyData.name;
-        
-        SoundManager.PlaySound(sound);
+        enemyMoney = enemyData.EnemyMoney;
+        enemyAudio = enemyData.EnemyAudio;
+        enemyName = enemyData.EnemyName;
+
+        SoundManager.PlaySound(enemyAudio);
     }
     
     public void SetFisrtNode(Node node)

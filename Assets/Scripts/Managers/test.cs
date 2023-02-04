@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class test : MonoBehaviour
 {
-    AudioEnum myAudio = AudioEnum.Attack;
+    AudioEnum myAudio = AudioEnum.TurretAttack;
     // Start is called before the first frame update
     void Start()
     {
