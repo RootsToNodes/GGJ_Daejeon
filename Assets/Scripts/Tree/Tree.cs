@@ -18,7 +18,19 @@ public class Tree : MonoBehaviour
 
     private void Awake()
     {
-        roots = CreateNewNode(null, new NodeStatus());
+        var status = new NodeStatus
+        {
+            attackPower = 1,
+            attackSpeed = 1,
+            shotRange = 5,
+            rotationSpeed = 10,
+            bulletSpeed = 1,
+            bulletCount = 1,
+            bulletLifeTime = 5,
+            defense = 5
+        };
+
+        roots = CreateNewNode(null, status);
         leafNodeList.Add(roots);
     }
 
@@ -32,10 +44,9 @@ public class Tree : MonoBehaviour
         var node = Instantiate(originPrefab, transform);
         node.Initialization(parent, status);
 
-        var level = node.GetNodeLevel();
-        if (level > treeLevel)
+        if (node.nodeLevel > treeLevel)
         {
-            treeLevel = level;
+            treeLevel = node.nodeLevel;
         }
 
         parent?.AddChild(node);

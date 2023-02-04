@@ -1,8 +1,11 @@
+using System;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 
 public class Enemy : MonoBehaviour
@@ -10,7 +13,7 @@ public class Enemy : MonoBehaviour
     private const float TempSpeedValue = 1;
 
 
-    private int hp;
+    private float hp;
     private int damage;
     private float attackSpeed;
     private float moveSpeed;
@@ -20,9 +23,7 @@ public class Enemy : MonoBehaviour
 
     [Header("���� �ּ� �Ÿ�")]
     public float attackRange = 0.5f;
-
-
-    public int Hp { get { return hp; }}
+    
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
     public AudioEnum EnemyAudio { get { return enemyAudio; } set { EnemyAudio = value; } }
@@ -37,9 +38,12 @@ public class Enemy : MonoBehaviour
 
     private float lastAttackTime;
 
-    public void Initialize(EnemyData enemyData)
+    private UnityAction<Enemy> onDie;
+
+    public void Initialize(EnemyData enemyData, UnityAction<Enemy> onDie)
     {
         canMoving = false;
+        
         hp = enemyData.Hp;
         damage = enemyData.Damage;
         attackSpeed = enemyData.AttackSpeed;
@@ -49,6 +53,8 @@ public class Enemy : MonoBehaviour
         enemyName = enemyData.EnemyName;
 
         SoundManager.PlaySound(enemyAudio);
+        this.onDie = onDie;
+        
     }
     
     public void SetFisrtNode(Node node)
@@ -162,9 +168,9 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    public void GetDamaged()
+    public void OnDamage(float amount)
     {
-        hp -= damage;
+        hp -= amount;
         if (hp <= 0)
         {
             Die();
@@ -173,6 +179,8 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        onDie?.Invoke(this);
+        
         switch (enemyName)
         {
             case "normal":
@@ -188,6 +196,8 @@ public class Enemy : MonoBehaviour
             default:
                 break;
         }
+        
+        Destroy(gameObject);
     }
     
     
