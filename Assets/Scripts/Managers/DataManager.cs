@@ -15,15 +15,14 @@ public struct Resourse
 }
 public class DataManager : Manager<DataManager>
 {
-    Resourse resourse;
-    Resourse startResourse = new(0,0);
-    bool isChecked;
+    private Resourse resourse;
+    private Resourse startResourse = new(0,0);
+    
     public DataManager()
     {
-        Debug.Log(this.GetType().Name + ": ÃÊ±âÈ­ ¿Ï·á");
         resourse = startResourse;
     }
-    public static void GetMoney(int money) // ÀÚ¿ø È¹µæ
+    public static void GetMoney(int money) // ï¿½Ú¿ï¿½ È¹ï¿½ï¿½
     {
         GetInstance().resourse.money += money;
         GetInstance().PrintResource();
@@ -37,44 +36,47 @@ public class DataManager : Manager<DataManager>
     }
     public static bool CheckResource(int money)
     {
-        if (GetInstance().resourse.money > money)
+        var instance = GetInstance();
+        
+        if (instance.resourse.money > money)
         {
-            GetInstance().resourse.money -= money;
-            GetInstance().isChecked = true;
-            GetInstance().PrintResource();
+            instance.resourse.money -= money;
+            instance.PrintResource();
+            return true;
         }
         else
         {
-            GetInstance().isChecked = false;
-            GetInstance().SendError();
+            instance.SendError();
+            return false;
         }
-        return GetInstance().isChecked;
     }
     public static bool CheckResource(int money, int gas)
     {
-        if ((GetInstance().resourse.money > money) && (GetInstance().resourse.gas > gas))
+        var instance = GetInstance();
+        
+        if ((instance.resourse.money > money) && (instance.resourse.gas > gas))
         {
-            GetInstance().resourse.money -= money;
-            GetInstance().resourse.gas -= gas;
-            GetInstance().isChecked = true;
-            GetInstance().PrintResource();
+            instance.resourse.money -= money;
+            instance.resourse.gas -= gas;
+            instance.PrintResource();
 
+            return true;
         }
         else
         {
-            GetInstance().isChecked = false;
-            GetInstance().SendError();
+            instance.SendError();
+
+            return false;
         }
-        return GetInstance().isChecked;
     }
 
     private void SendError()
     {
-        Debug.Log("Á¶°Ç ºÎÀûÇÕ");
+        Debug.Log("ìì›ì´ ë¶€ì¡±í•©ë‹ˆë‹¤");
     }
     private void PrintResource()
     {
-        Debug.Log($"ÇöÀç ÀÚ¿øÀº : {resourse.money} + {resourse.gas}");
+        Debug.Log($"í˜„ì¬ ìì› {resourse.money} / {resourse.gas}");
     }
 
 }

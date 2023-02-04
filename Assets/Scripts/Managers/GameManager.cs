@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero,
                 float.PositiveInfinity, nodeLayerMask);
 
-            if (hit != null && hit.collider != null && hit.collider.TryGetComponent(typeof(Node), out var node))
+            if (hit.collider != null && hit.collider.TryGetComponent(typeof(Node), out var node))
             {
                 //일단 대충 터치만하면 2개 만듬
                 tree.CreateNewNode((Node) node, new NodeStatus());

@@ -49,13 +49,9 @@ public class Tree : MonoBehaviour
 
     private void AlignmentNodes(Node curNode, int level = 1)
     {
-        if (level == treeLevel)
-        {
-            leafNodeList.Add(curNode);
-        }
-        
         if (curNode.children.Count == 0)
         {
+            leafNodeList.Add(curNode);  
             return;
         }
 
