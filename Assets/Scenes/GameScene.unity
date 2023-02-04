@@ -155,10 +155,6 @@ MonoBehaviour:
   space: {x: 1.5, y: -1.5}
   originPrefab: {fileID: 2558348018679205737, guid: 3f7fa787c336e471e861fdad19d037ad,
     type: 3}
-  enemySpawner:
-  - {fileID: 589804404}
-  - {fileID: 1602817696}
-  - {fileID: 81168019}
 --- !u!4 &57633182
 Transform:
   m_ObjectHideFlags: 0
@@ -391,6 +387,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   tree: {fileID: 57633181}
+  enemySpawner:
+  - {fileID: 589804404}
+  - {fileID: 1602817696}
+  - {fileID: 81168019}
 --- !u!4 &497872454
 Transform:
   m_ObjectHideFlags: 0
