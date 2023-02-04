@@ -10,5 +10,14 @@ public class test : MonoBehaviour
     void Start()
     {
         SoundManager.PlaySound(myAudio);
+        SoundManager.PlaySound(myAudio = AudioList.StartSound);
+        SoundManager.PlaySound(myAudio = AudioList.Defeat);
+        SoundManager.PlaySound(myAudio = AudioList.Defeat);
+        SoundManager.PlaySound(myAudio = AudioList.Defeat);
+        SoundManager.PlaySound(myAudio = AudioList.Defeat);
+        SoundManager.PlaySound(myAudio = AudioList.Defeat);
+
+
+
     }
 }
