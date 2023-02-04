@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using TMPro;
 
 [Serializable]
 public struct NodeStatus
@@ -55,6 +58,10 @@ public class Node : MonoBehaviour
     [SerializeField] private Turret turret;
     [SerializeField] private Barrier barrier;
 
+    [SerializeField] private Image hpGuage;
+    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI statusText;
+    
     private NodeStatus status;
     public NodeStatus currentStatus { get; private set; }
 
@@ -64,7 +71,8 @@ public class Node : MonoBehaviour
 
     public float hp { get; private set; }
 
-    private readonly UnityEvent<int> onHealing = new UnityEvent<int>();
+    private readonly UnityEvent<float> onHealing = new UnityEvent<float>();
+    private UnityAction<Node> onDestroy;
 
     public Vector2 destPosition { get; private set; }
 
@@ -80,7 +88,7 @@ public class Node : MonoBehaviour
         }
     }
 
-    public void Initialization(Node parent, NodeStatus status)
+    public void Initialization(Node parent, NodeStatus status,UnityAction<Node> onDestroy)
     {
         if (parent)
         {
@@ -91,8 +99,10 @@ public class Node : MonoBehaviour
         this.status = status;
         currentStatus = CalculateStatus(status);
 
-        turret.Initialization(this);
-        barrier.Initialization(this);
+        this.onDestroy = onDestroy;
+
+        turret.Initialization(this, 100);
+        barrier.Initialization(this, 100);
 
         SetEvents();
         turret.SetEnable(true);
@@ -159,20 +169,31 @@ public class Node : MonoBehaviour
         destPosition = pos;
     }
 
-    public void OnDamage(float damage)
+    public void OnDamage(float amount)
     {
         SoundManager.PlaySound(AudioEnum.Hited);
         if (barrier.hp > 0)
         {
-            
+            barrier.OnDamage(amount);
         }
         else if (turret.hp > 0)
         {
-            
+            turret.OnDamage(amount);
         }
         else
         {
-            
+            hp -= Mathf.Max(amount - currentStatus.defense, 0);
+
+            if (hp < 0)
+            {
+                onDestroy?.Invoke(this);
+            }
         }
     }
+
+    private void SetHpUI()
+    {
+        var tortalMaxHp = 500;
+    }
+    
 }
