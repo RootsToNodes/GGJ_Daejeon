@@ -7,13 +7,19 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private AudioEnum sound = AudioEnum.StartSound;
 
     private int hp;
     private int damage;
     private float moveSpeed;
     private string enemyName;
     private float enemyWaitTime = 5f;
-    
+
+    private float destinationDistance;
+    [Header("공격 최소 거리")]
+    public float minRange = 0.5f;
+
+
 
     public int Hp { get { return hp; }}
     public int Damage { get { return damage; } set { damage += value; } }
@@ -25,6 +31,18 @@ public class Enemy : MonoBehaviour
     Node currentNode;
     Node nextTargetNode;
 
+    void Update()
+    {
+        if (temp_shake_intensity > 0 && isShaking == true)
+        {
+            transform.position = originPosition + Random.insideUnitSphere * temp_shake_intensity;
+            temp_shake_intensity -= shake_decay;
+        }
+        else
+        {
+            isShaking = false;
+        }
+    }
 
     public void SetFisrtNode(Node node)
     {
@@ -38,7 +56,16 @@ public class Enemy : MonoBehaviour
         damage = enemyData.Damage;
         moveSpeed = enemyData.MoveSpeed;
         enemyName = enemyData.name;
+        TestSound();
+        SoundManager.PlaySound(sound);
     }
+
+    public void TestSound()
+    {
+        var random = Random.Range(1,System.Enum.GetValues(typeof(AudioEnum)).Length);
+        sound = (AudioEnum)(random-1);
+    }
+
     private void SetNextNode()
     {
         nextTargetNode = currentNode.parent;
@@ -60,10 +87,42 @@ public class Enemy : MonoBehaviour
             currentNode = nextTargetNode;
             SetNextNode();
         }
-        transform.position = Vector3.MoveTowards(this.transform.position, currentNode.transform.position, Time.deltaTime * moveSpeed);
+        transform.position = Vector3.MoveTowards(this.transform.position, currentNode.transform.position, Time.deltaTime * moveSpeed * 20);
+        destinationDistance = Vector3.Distance(transform.position, currentNode.transform.position);
+        if (destinationDistance <= minRange)
+        {
+            CheckDistance();
+        }
+        else
+        {
+            temp_shake_intensity = 0;
+        }
     }
+    private Vector3 originPosition ;
+    public float shake_decay = 0.01f;
+    public float shake_intensity = .4f;
+    public bool isShaking = false;
+
+    private float temp_shake_intensity = 0;
+
     
 
+    public void Shake()
+    {
+        if (!isShaking)
+        {
+            isShaking = true;
+            originPosition = transform.position;
+            temp_shake_intensity = shake_intensity;
+        }
+    }
+    void CheckDistance()
+    {
+        
+        Shake();
+        // 먼지 이펙트 추가하기
+        // 사운드 추가하기
+    }
     //private void OnCollisionEnter(Collision collision)
     //{
     //    if (collision.gameObject.CompareTag("Object"))
@@ -71,7 +130,6 @@ public class Enemy : MonoBehaviour
     //        collision.gameObject.GetComponent<NodeObject>().OnDamage(Damage);
     //    }
     //}
-
 
     public void GetDamaged()
     {

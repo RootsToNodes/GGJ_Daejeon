@@ -10,6 +10,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Tree tree;
     [SerializeField] EnemySpawner[] enemySpawner;
 
+    [SerializeField] private CameraMovement cameraMove;
+    [SerializeField] private MinimapCamera minimapCamera;
+    
+    [SerializeField] private SelectPopup selectPopup;
+
+    private void Awake()
+    {
+        selectPopup.onClickAddChild = OnClickAddChild;
+    }
+
+    private void Start()
+    {
+        SetSpawnerLeafNodeList();
+    }
     private void Update()
     {
         CheckInput();
@@ -19,20 +33,30 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero,
-                float.PositiveInfinity, nodeLayerMask);
-
-            if (hit != null && hit.collider != null && hit.collider.TryGetComponent(typeof(Node), out var node))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit, Mathf.Infinity,nodeLayerMask))
             {
-                //일단 대충 터치만하면 2개 만듬
-                tree.CreateNewNode((Node) node, new NodeStatus());
-                tree.CreateNewNode((Node) node, new NodeStatus());
-
-                SetSpawnerLeafNodeList();
+                if (hit.collider.TryGetComponent(typeof(Node), out var node))
+                {
+                    selectPopup.SetTargetNode((Node) node);
+                    cameraMove.FocusToTarget(node.transform.position);
+                }
+                else
+                {
+                    selectPopup.OnClickClose();
+                }
             }
         }
     }
 
+    private void OnClickAddChild(Node node)
+    {
+        tree.CreateNewNode(node, new NodeStatus());
+        SetSpawnerLeafNodeList();
+        
+        minimapCamera.UpdateMiniMapCamera(tree.treeArea);
+        cameraMove.SetBorder(tree.treeArea);
+    }
+    
     private void SetSpawnerLeafNodeList()
     {
         foreach (var spawner in enemySpawner)

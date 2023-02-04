@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class Tree : MonoBehaviour
 {
+    public Rect treeArea { get; private set; }
+
     public Vector2 space;
     public Node originPrefab; //임시
 
     public Node roots { get; private set; }
     private readonly List<Node> leafNodeList = new List<Node>();
-    
+
     private int treeLevel = 1;
-    
-    
+
+
     private void Awake()
     {
         roots = CreateNewNode(null, new NodeStatus());
@@ -24,10 +26,10 @@ public class Tree : MonoBehaviour
     {
         return leafNodeList;
     }
-    
+
     public Node CreateNewNode(Node parent, NodeStatus status)
     {
-        var node = Instantiate(originPrefab);
+        var node = Instantiate(originPrefab, transform);
         node.Initialization(parent, status);
 
         var level = node.GetNodeLevel();
@@ -40,38 +42,46 @@ public class Tree : MonoBehaviour
 
         if (roots)
         {
-            leafNodeList.Clear();
-            AlignmentNodes(roots);
+            AlignmentNodes();
         }
 
         return node;
     }
 
-    private void AlignmentNodes(Node curNode, int level = 1)
+    private void AlignmentNodes()
     {
-        if (level == treeLevel)
-        {
-            leafNodeList.Add(curNode);
-        }
-        
+        leafNodeList.Clear();
+        var area = new Rect();
+        AlignmentNodes(roots, ref area);
+        treeArea = area;
+    }
+
+    private void AlignmentNodes(Node curNode, ref Rect area, int level = 1)
+    {
+        Vector2 curNodePos = curNode.destPosition;
+
+        if (curNodePos.x < area.xMin) area.xMin = curNodePos.x;
+        if (curNodePos.x > area.xMax) area.xMax = curNodePos.x;
+        if (curNodePos.y < area.yMin) area.yMin = curNodePos.y;
+        if (curNodePos.y > area.yMax) area.yMax = curNodePos.y;
+
         if (curNode.children.Count == 0)
         {
+            leafNodeList.Add(curNode);
             return;
         }
 
-        Vector2 curNodePos = curNode.destPosition;
-
         var length = Mathf.Abs(Mathf.Pow(space.y, (treeLevel - level) + 1));
         var unit = curNode.children.Count == 1 ? 0 : length / (float) (curNode.children.Count - 1);
-        
+
         for (int i = 0; i < curNode.children.Count; i++)
         {
             var child = curNode.children[i];
-            var pos = new Vector2(space.x,-length * 0.5f + unit * i);
+            var pos = new Vector2(space.x, -length * 0.5f + unit * i);
 
             child.SetPosition(curNodePos + pos);
 
-            AlignmentNodes(child, level + 1);
+            AlignmentNodes(child,  ref area, level + 1);
         }
     }
 }
