@@ -1219,7 +1219,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b940258e31f34eeca7975650d271703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dragSpeed: 0
+  minZoomSize: -30
+  maxZoomSize: -5
+  zoomSpeed: 1
+  dragSpeed: 0.01
+  focusSpeed: 0
 --- !u!1 &1840045454
 GameObject:
   m_ObjectHideFlags: 0
