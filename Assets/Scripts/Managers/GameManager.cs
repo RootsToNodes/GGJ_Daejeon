@@ -6,13 +6,7 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
-    
-    public static GameManager GetInstance()
-    {
-        return instance;
-    }
-    
+    public static GameManager instance { get; private set; }
     
     [SerializeField] private LayerMask nodeLayerMask;
     [SerializeField] private Tree tree;
@@ -63,7 +57,18 @@ public class GameManager : MonoBehaviour
 
     private void OnClickAddChild(Node node)
     {
-        tree.CreateNewNode(node, new NodeStatus());
+        var status = new NodeStatus
+        {
+            attackPower = 1,
+            attackSpeed = 1,
+            shotRange = 5,
+            bulletSpeed = 1,
+            bulletCount = 1,
+            defense = 5
+        };
+        
+        
+        tree.CreateNewNode(node, status);
         SetSpawnerLeafNodeList();
 
         minimapCamera.UpdateMiniMapCamera(tree.treeArea);
@@ -85,5 +90,21 @@ public class GameManager : MonoBehaviour
         {
             spawner.AttackStart();
         }
+    }
+
+    public Enemy GetEnemyInRange(Vector2 position, float range)
+    {
+        foreach (var spawner in enemySpawner)
+        {
+            foreach (var enemy in spawner.enemiseList)
+            {
+                if ((position - (Vector2)enemy.transform.position).sqrMagnitude < range * range)
+                {
+                    return enemy;
+                }
+            }
+        }
+
+        return null;
     }
 }

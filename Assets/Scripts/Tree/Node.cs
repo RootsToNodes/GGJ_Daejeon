@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
+[Serializable]
 public struct NodeStatus
 {
     public enum BulletForm
@@ -13,28 +13,34 @@ public struct NodeStatus
         Radial,
     }
     
-    public int attackPower;
-    public int attackSpeed;
+    public float attackPower;
+    public float attackSpeed;
 
+    public float shotRange;
+    public float rotationSpeed;
+    
     public BulletForm bulletForm;
-    public int bulletSpeed;
     public int bulletCount;
+    public float bulletSpeed;
+    public float bulletLifeTime;
     
-    
-    
-    public int defense;
+    public float defense;
 
     public static NodeStatus operator +(NodeStatus a, NodeStatus b)
     {
         var status = new NodeStatus();
         status.attackPower = a.attackPower + b.attackPower;
         status.attackSpeed = a.attackSpeed + b.attackSpeed;
+
+        status.shotRange = a.shotRange + b.shotRange;
+        status.rotationSpeed = a.rotationSpeed + b.rotationSpeed;
+        
+        status.bulletForm = b.bulletForm == BulletForm.None ? b.bulletForm : a.bulletForm;
+        status.bulletCount = a.bulletCount + b.bulletCount;
+        status.bulletSpeed = a.bulletSpeed + b.bulletSpeed;
+        status.bulletLifeTime = a.bulletLifeTime + b.bulletLifeTime;
         
         status.defense = a.defense + b.defense;
-
-        status.bulletForm = b.bulletForm == BulletForm.None ? b.bulletForm : a.bulletForm;
-        status.bulletSpeed = a.bulletSpeed + b.bulletSpeed;
-        status.bulletCount = a.bulletCount + b.bulletCount;
         
         return status;
     }
@@ -54,8 +60,9 @@ public class Node : MonoBehaviour
 
     public Node parent { get; private set; }
     public List<Node> children = new List<Node>();
+    public int nodeLevel { get; private set; }
 
-    public float hp { get; set; }
+    public float hp { get; private set; }
 
     private readonly UnityEvent<int> onHealing = new UnityEvent<int>();
 
@@ -89,6 +96,8 @@ public class Node : MonoBehaviour
 
         SetEvents();
         turret.SetEnable(true);
+
+        CalculateNodeLevel();
     }
 
     private void SetEvents()
@@ -106,22 +115,17 @@ public class Node : MonoBehaviour
         return parent != null ? parent.CalculateStatus(status) : status;
     }
 
-    public int GetNodeLevel()
+    private int CalculateNodeLevel()
     {
         var curNode = parent;
-        var level = 1;
+        nodeLevel = 1;
         while (curNode != null)
         {
-            level++;
+            nodeLevel++;
             curNode = curNode.parent;
         }
 
-        return level;
-    }
-
-    public Enemy GetTarget()
-    {
-        return null;
+        return nodeLevel;
     }
 
     public void AddChild(Node child)

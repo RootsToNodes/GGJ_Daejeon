@@ -1,8 +1,11 @@
+using System;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 
 public class Enemy : MonoBehaviour
@@ -33,14 +36,19 @@ public class Enemy : MonoBehaviour
 
     private float lastAttackTime;
 
-    public void Initialize(EnemyData enemyData)
+    private UnityAction<Enemy> onDie;
+
+    public void Initialize(EnemyData enemyData, UnityAction<Enemy> onDie)
     {
         canMoving = false;
+        
         hp = enemyData.Hp;
         damage = enemyData.Damage;
         attackSpeed = enemyData.AttackSpeed;
         moveSpeed = enemyData.MoveSpeed;
         enemyName = enemyData.name;
+
+        this.onDie = onDie;
         
         SoundManager.PlaySound(sound);
     }
@@ -167,6 +175,8 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        onDie?.Invoke(this);
+        
         switch (enemyName)
         {
             case "normal":
@@ -182,6 +192,8 @@ public class Enemy : MonoBehaviour
             default:
                 break;
         }
+        
+        Destroy(gameObject);
     }
     
     

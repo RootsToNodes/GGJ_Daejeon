@@ -43,17 +43,22 @@ public class Turret : NodeObject
         
         if (!targetEnemy)
         {
-            targetEnemy = node.GetTarget();
+            targetEnemy = GameManager.instance.GetEnemyInRange(transform.position, node.currentStatus.shotRange);
+            lastAttackTime = Time.time;
             return;
         }
 
         var dir = (transform.position - targetEnemy.transform.position);
         
-        float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle + 90);
+        var curAngle = transform.rotation.eulerAngles.z;
+        var angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg -90;
+        var rotationDelta = node.currentStatus.rotationSpeed * Time.deltaTime;
+
+        transform.rotation = Quaternion.Euler(0, 0, Mathf.MoveTowardsAngle(curAngle,angle,rotationDelta));
         
-        if (lastAttackTime + node.currentStatus.attackSpeed > Time.time)
+        if (lastAttackTime + node.currentStatus.attackSpeed < Time.time)
         {
+            lastAttackTime = Time.time;
             FireBullet();
         }
     }
@@ -63,11 +68,16 @@ public class Turret : NodeObject
         var bulletform = node.currentStatus.bulletForm;
         var bulletSpeed = node.currentStatus.bulletSpeed;
         var bulletPower = node.currentStatus.bulletSpeed;
+        var bulletLifeTime = node.currentStatus.bulletLifeTime;
         
         for (int i = 0; i < node.currentStatus.bulletCount; i++)
         {
             var bullet = Instantiate(bulletPrefab);
-            bullet.Initialization(((Vector2) bulletStart.localPosition).normalized, bulletSpeed, bulletPower);
+            
+            bullet.transform.position = bulletStart.position;
+
+            var dir = (bulletStart.position - transform.position).normalized;
+            bullet.Initialization(dir, bulletSpeed, bulletPower, bulletLifeTime);
         }
     }
 }
