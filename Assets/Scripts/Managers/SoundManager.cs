@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public enum AudioList : int
+public enum AudioEnum : int
 {
     Hited,
     Attack,
@@ -14,7 +14,7 @@ public enum AudioList : int
 public class SoundManager : Manager<SoundManager>
 {
     [SerializeField]
-    AudioSource[] audioSource;
+    AudioSource audioSource;
     AudioClip[] audioClip;
     SoundStorage storage;
     public SoundManager()
@@ -24,25 +24,11 @@ public class SoundManager : Manager<SoundManager>
         storage = Camera.main.GetComponent<SoundStorage>();
         audioSource = storage.audioSources;
         audioClip = storage.audioClips;
-        // 개체 어떻게 가져올지?
     }
 
-    public static void PlaySound(AudioList audio)
+    public static void PlaySound(AudioEnum audio)
     {
-        for (int i = 0; i < GetInstance().audioSource.Length; i++)
-        {
-            if (GetInstance().audioSource[i].isPlaying)
-            {
-                return;
-            }
-            else
-            {
-                GetInstance().audioSource[i].clip = GetInstance().audioClip[(int)audio];
-                GetInstance().audioSource[i].Play();
-                return;
-            }
-        }
-        
+        GetInstance().audioSource.clip = GetInstance().audioClip[(int)audio];
+        GetInstance().audioSource.PlayOneShot(GetInstance().audioSource.clip);
     }
-    
 }

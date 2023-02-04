@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private AudioEnum sound = AudioEnum.StartSound;
 
     private int hp;
     private int damage;
@@ -40,7 +41,16 @@ public class Enemy : MonoBehaviour
         damage = enemyData.Damage;
         moveSpeed = enemyData.MoveSpeed;
         enemyName = enemyData.name;
+        TestSound();
+        SoundManager.PlaySound(sound);
     }
+
+    public void TestSound()
+    {
+        var random = Random.Range(1,System.Enum.GetValues(typeof(AudioEnum)).Length);
+        sound = (AudioEnum)(random-1);
+    }
+
     private void SetNextNode()
     {
         nextTargetNode = currentNode.parent;

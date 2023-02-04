@@ -5,19 +5,12 @@ using UnityEngine;
 
 public class test : MonoBehaviour
 {
-    AudioList myAudio = AudioList.Attack;
+    AudioEnum myAudio = AudioEnum.Attack;
     // Start is called before the first frame update
     void Start()
     {
         SoundManager.PlaySound(myAudio);
-        SoundManager.PlaySound(myAudio = AudioList.StartSound);
-        SoundManager.PlaySound(myAudio = AudioList.Defeat);
-        SoundManager.PlaySound(myAudio = AudioList.Defeat);
-        SoundManager.PlaySound(myAudio = AudioList.Defeat);
-        SoundManager.PlaySound(myAudio = AudioList.Defeat);
-        SoundManager.PlaySound(myAudio = AudioList.Defeat);
-
-
+        SoundManager.PlaySound(myAudio = AudioEnum.StartSound);
 
     }
 }

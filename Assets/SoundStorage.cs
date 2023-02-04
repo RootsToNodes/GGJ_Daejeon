@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundStorage : MonoBehaviour
 {
-    public AudioSource[] audioSources;
+    public AudioSource audioSources;
     public AudioClip[] audioClips;
-    
+
 }
