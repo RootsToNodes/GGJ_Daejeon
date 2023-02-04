@@ -984,6 +984,7 @@ GameObject:
   - component: {fileID: 1684035934}
   - component: {fileID: 1684035938}
   - component: {fileID: 1684035939}
+  - component: {fileID: 1684035940}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -1058,7 +1059,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 11
   m_Depth: 0
   m_CullingMask:
@@ -1082,14 +1083,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684035933}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.13052624, y: 0, z: 0, w: 0.9914449}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
 --- !u!82 &1684035938
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1206,6 +1207,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a4a5308a566e12f49af043d145ee0e52, type: 3}
   - {fileID: 8300000, guid: 24bfdd05421f78c43b6b7e98807283aa, type: 3}
   - {fileID: 8300000, guid: 1c0f916068183d442a225a47e757c80a, type: 3}
+--- !u!114 &1684035940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684035933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b940258e31f34eeca7975650d271703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragSpeed: 0
 --- !u!1 &1840045454
 GameObject:
   m_ObjectHideFlags: 0
