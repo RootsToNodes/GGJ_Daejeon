@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2558348018679205737}
   - component: {fileID: 7308679795631859689}
   - component: {fileID: 5700444789017317084}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Node
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 1482127794580184860}
   - component: {fileID: 6502578949687184756}
   - component: {fileID: 6672958088294035254}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Barrier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 935430561148255153}
   - component: {fileID: 5211713517496496660}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9052700299728734760}
   - component: {fileID: 4862752527056931053}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -27,7 +27,7 @@ public class Tree : MonoBehaviour
     
     public Node CreateNewNode(Node parent, NodeStatus status)
     {
-        var node = Instantiate(originPrefab);
+        var node = Instantiate(originPrefab, transform);
         node.Initialization(parent, status);
 
         var level = node.GetNodeLevel();
