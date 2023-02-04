@@ -10,6 +10,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Tree tree;
     [SerializeField] EnemySpawner[] enemySpawner;
 
+    [SerializeField] private SelectPopup selectPopup;
+
+    private void Awake()
+    {
+        selectPopup.onClickAddChild = (node) =>
+        {
+            tree.CreateNewNode(node, new NodeStatus());
+            tree.CreateNewNode(node, new NodeStatus());
+        };
+    }
+
     private void Start()
     {
         SetSpawnerLeafNodeList();
@@ -28,10 +39,9 @@ public class GameManager : MonoBehaviour
 
             if (hit.collider != null && hit.collider.TryGetComponent(typeof(Node), out var node))
             {
+                selectPopup.SetTargetNode((Node) node);
+                
                 //일단 대충 터치만하면 2개 만듬
-                tree.CreateNewNode((Node) node, new NodeStatus());
-                tree.CreateNewNode((Node) node, new NodeStatus());
-
                 SetSpawnerLeafNodeList();
             }
         }
