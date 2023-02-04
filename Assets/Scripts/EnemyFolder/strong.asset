@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: strong
   hp: 25
+  attackSpeed: 1
   damage: 5
   moveSpeed: 1

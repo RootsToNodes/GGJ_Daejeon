@@ -66,7 +66,15 @@ public class GameManager : MonoBehaviour
         foreach (var spawner in enemySpawner)
         {
             spawner.SetLeafNodeList(tree.GetLeafNodes());
-            spawner.transform.position = new Vector2(tree.treeArea.position.x + distanceFromNode, spawner.transform.position.y);
+            spawner.transform.position = new Vector2(tree.treeArea.xMax + distanceFromNode, spawner.transform.position.y);
+        }
+    }
+
+    public void WaveStart()
+    {
+        foreach (var spawner in enemySpawner)
+        {
+            spawner.AttackStart();
         }
     }
 }

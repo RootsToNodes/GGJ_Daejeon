@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     
     private AudioEnum sound = AudioEnum.StartSound;
 
-    private int hp;
+    private float hp;
     private int damage;
     private float attackSpeed;
     private float moveSpeed;
@@ -19,9 +19,7 @@ public class Enemy : MonoBehaviour
 
     [Header("���� �ּ� �Ÿ�")]
     public float attackRange = 0.5f;
-
-
-    public int Hp { get { return hp; }}
+    
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
     public string Name { get { return enemyName; }}
@@ -158,9 +156,9 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    public void GetDamaged()
+    public void OnDamage(float amount)
     {
-        hp -= damage;
+        hp -= amount;
         if (hp <= 0)
         {
             Die();

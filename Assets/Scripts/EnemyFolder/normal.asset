@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: normal
   hp: 10
+  attackSpeed: 1
   damage: 2
   moveSpeed: 1

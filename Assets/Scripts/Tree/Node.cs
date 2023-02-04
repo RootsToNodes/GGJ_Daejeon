@@ -6,8 +6,22 @@ using UnityEngine.Events;
 
 public struct NodeStatus
 {
+    public enum BulletForm
+    {
+        None,
+        Straight,
+        Radial,
+    }
+    
     public int attackPower;
     public int attackSpeed;
+
+    public BulletForm bulletForm;
+    public int bulletSpeed;
+    public int bulletCount;
+    
+    
+    
     public int defense;
 
     public static NodeStatus operator +(NodeStatus a, NodeStatus b)
@@ -15,8 +29,13 @@ public struct NodeStatus
         var status = new NodeStatus();
         status.attackPower = a.attackPower + b.attackPower;
         status.attackSpeed = a.attackSpeed + b.attackSpeed;
+        
         status.defense = a.defense + b.defense;
 
+        status.bulletForm = b.bulletForm == BulletForm.None ? b.bulletForm : a.bulletForm;
+        status.bulletSpeed = a.bulletSpeed + b.bulletSpeed;
+        status.bulletCount = a.bulletCount + b.bulletCount;
+        
         return status;
     }
 }
@@ -25,6 +44,7 @@ public class Node : MonoBehaviour
 {
     private const float nodeAnimationSpeed  = 3;
 
+    [SerializeField] private SpriteRenderer mainSprite;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Turret turret;
     [SerializeField] private Barrier barrier;
@@ -68,6 +88,7 @@ public class Node : MonoBehaviour
         barrier.Initialization(this);
 
         SetEvents();
+        turret.SetEnable(true);
     }
 
     private void SetEvents()
@@ -98,16 +119,37 @@ public class Node : MonoBehaviour
         return level;
     }
 
+    public Enemy GetTarget()
+    {
+        return null;
+    }
+
     public void AddChild(Node child)
     {
         children.Add(child);
+        
+        SetEnable(false);
     }
 
     public void RemoveChild(Node child)
     {
         children.Remove(child);
+        
+        if (children.Count == 0)
+        {
+            SetEnable(true);
+        }
     }
 
+    public void SetEnable(bool enable)
+    {
+        var color = mainSprite.color;
+        color.a = enable ? 1 : 0.5f;
+        mainSprite.color = color;
+
+        turret.SetEnable(enable);
+    }
+    
     public void SetPosition(Vector2 pos)
     {
         destPosition = pos;
