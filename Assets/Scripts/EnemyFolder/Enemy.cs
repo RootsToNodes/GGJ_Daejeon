@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     private float moveSpeed;
     
 
-    public int Hp { get { return hp; } set { hp = value; } }
+    public int Hp { get { return hp; }}
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
     private EnemyData enemyData;
@@ -29,18 +29,15 @@ public class Enemy : MonoBehaviour
         currentNode = node;
         SetNextNode();
     }
-    private void Start()
-    {
-    }
     private void Update()
     {
         MoveToNode();
     }
     public void Initialize()
     {
-        Hp = enemyData.Hp;
-        Damage = enemyData.Damage;
-        MoveSpeed = enemyData.MoveSpeed;
+        hp = enemyData.Hp;
+        damage = enemyData.Damage;
+        moveSpeed = enemyData.MoveSpeed;
     }
     private void SetNextNode()
     {
@@ -59,7 +56,8 @@ public class Enemy : MonoBehaviour
             currentNode = nextTargetNode;
             SetNextNode();
         }
-        transform.Translate(currentNode.transform.position * Time.deltaTime * enemyData.MoveSpeed);
+        transform.position = Vector3.MoveTowards(this.transform.position, currentNode.transform.position,Time.deltaTime * moveSpeed);
+        Debug.Log(Vector3.MoveTowards(this.transform.position, currentNode.transform.position, Time.deltaTime * moveSpeed));
     }
 
     private void OnCollisionEnter(Collision collision)

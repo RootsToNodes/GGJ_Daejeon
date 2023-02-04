@@ -49,10 +49,11 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            var enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity).GetComponent<Enemy>();
             var _randomNum = System.Enum.GetValues(typeof(EnemyType)).Length;
-            enemies.Add(enemy);
+            var enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity).GetComponent<Enemy>();
             enemy.EnemyData = enemydata[_randomNum-1];
+            enemy.Initialize();
+            enemies.Add(enemy);
             enemy.SetFisrtNode(leafNodeList[Random.Range(0, leafNodeList.Count)]);
             // 에네미의 성능을 스크립터블 오브젝트로 처리해야함.
             yield return wait;
