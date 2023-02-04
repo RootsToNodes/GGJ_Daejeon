@@ -5,6 +5,7 @@ using UnityEngine;
 public class SoundStorage : MonoBehaviour
 {
     public AudioSource audioSources;
-    public AudioClip[] audioClips;
+    public AudioClip[] audioClips = new AudioClip[System.Enum.GetValues(typeof(AudioEnum)).Length];
 
+    public AudioEnum soundType;
 }

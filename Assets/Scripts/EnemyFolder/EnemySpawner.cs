@@ -19,12 +19,15 @@ public class EnemySpawner : MonoBehaviour
     
     [SerializeField] private List<EnemyData> enemydata = new List<EnemyData>();
 
+
     public readonly List<Enemy> enemiseList = new List<Enemy>();
     private List<Node> leafNodeList;
 
     private Dictionary<int, int> waveLevelDictionary = new Dictionary<int, int>();
     private int waveLevel = 0;
     private WaitForSeconds wait;
+
+    public GameObject trailObject;
 
     public void SetLeafNodeList(List<Node> leafNodes)
     {
@@ -68,8 +71,7 @@ public class EnemySpawner : MonoBehaviour
             var enemy = Instantiate(enemyData.EnemyPrefab, pos, Quaternion.identity).GetComponent<Enemy>();
             enemy.Initialize(enemyData, OnEnemyDie);
 
-            enemiesList.Add(enemy);
-            remainEnemiseList.Add(enemy);
+            enemiseList.Add(enemy);
             
 
             
@@ -79,6 +81,8 @@ public class EnemySpawner : MonoBehaviour
                 {
                     enemiseList[i].SetFisrtNode(leafNodeList[Random.Range(0, leafNodeList.Count)]);
                     enemiseList[i].StartMove();
+                    SoundManager.PlaySound(AudioEnum.StartSound);
+
                 }
                 Debug.Log(enemiseList.Count);
                 yield break;

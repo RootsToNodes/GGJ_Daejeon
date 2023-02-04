@@ -9,6 +9,7 @@ public enum AudioEnum : int
     TurretAttack,
     EnemyAttack,
     EnemyHited,
+    EnemyDie,
     Defeat,
     StartSound,
 }

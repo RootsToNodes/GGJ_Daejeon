@@ -29,6 +29,7 @@ public class Turret : NodeObject
 
     public void SetEnable(bool enable)
     {
+        
         isOn = enable;
         gun.SetActive(enable);
     }
@@ -99,6 +100,7 @@ public class Turret : NodeObject
             bullet.transform.position = pos;
             bullet.Initialization(dir, node.currentStatus.bulletSpeed, node.currentStatus.attackPower,
                 node.currentStatus.bulletLifeTime);
+            SoundManager.PlaySound(AudioEnum.TurretAttack);
         }
     }
 }

@@ -161,6 +161,7 @@ public class Node : MonoBehaviour
 
     public void OnDamage(float damage)
     {
+        SoundManager.PlaySound(AudioEnum.Hited);
         if (barrier.hp > 0)
         {
             

@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
 {
     private const float TempSpeedValue = 1;
 
+    Vector2 unitedPos;
 
     private float hp;
     private int damage;
@@ -19,7 +20,12 @@ public class Enemy : MonoBehaviour
     private float moveSpeed;
     private string enemyName;
     private AudioEnum enemyAudio;
+
+    private AudioEnum enemyDeadAudio = AudioEnum.EnemyDie;
+    private AudioEnum enemyHitedAudio = AudioEnum.EnemyHited;
+
     private int enemyMoney;
+    private float gap = 1f;
 
     [Header("���� �ּ� �Ÿ�")]
     public float attackRange = 0.5f;
@@ -52,7 +58,6 @@ public class Enemy : MonoBehaviour
         enemyAudio = enemyData.EnemyAudio;
         enemyName = enemyData.EnemyName;
 
-        SoundManager.PlaySound(enemyAudio);
         this.onDie = onDie;
         
     }
@@ -115,9 +120,11 @@ public class Enemy : MonoBehaviour
     {
         var dir = (transform.position - currentNode.transform.position);
         var moveDelta = Time.deltaTime * moveSpeed * TempSpeedValue;
-        
-        transform.position = Vector3.MoveTowards(this.transform.position, currentNode.transform.position, moveDelta);
-        
+        unitedPos = new Vector2((currentNode.transform.position.x + gap), currentNode.transform.position.y);
+
+        transform.position = Vector3.MoveTowards(this.transform.position, unitedPos, moveDelta);
+
+        Debug.Log(currentNode +"+"+ currentNode.transform.position);
         float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle + 90);
         
@@ -136,6 +143,7 @@ public class Enemy : MonoBehaviour
     {
         if (lastAttackTime + attackSpeed < Time.time)
         {
+            SoundManager.PlaySound(AudioEnum.EnemyAttack);
             lastAttackTime = Time.time;
             
             currentNode.OnDamage(damage);
@@ -171,6 +179,7 @@ public class Enemy : MonoBehaviour
     public void OnDamage(float amount)
     {
         hp -= amount;
+        SoundManager.PlaySound(enemyHitedAudio);
         if (hp <= 0)
         {
             Die();
@@ -184,14 +193,16 @@ public class Enemy : MonoBehaviour
         switch (enemyName)
         {
             case "normal":
-                DataManager.GetMoney(5);
+                DataManager.GetMoney(enemyMoney);
+                SoundManager.PlaySound(enemyDeadAudio);
                 break;
             case "strong":
-                DataManager.GetMoney(10);
-                DataManager.GetGas(5);
+                DataManager.GetMoney(enemyMoney);
+                SoundManager.PlaySound(enemyDeadAudio);
                 break;
             case "range":
-                DataManager.GetMoney(7);
+                DataManager.GetMoney(enemyMoney);
+                SoundManager.PlaySound(enemyDeadAudio);
                 break;
             default:
                 break;
