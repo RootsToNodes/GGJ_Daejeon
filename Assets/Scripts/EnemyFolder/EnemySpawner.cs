@@ -11,16 +11,17 @@ enum EnemyType
 }
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField]
+    List<EnemyData> enemydata = new List<EnemyData>();
     List<Enemy> enemies = new List<Enemy>();
-    float time = 5;
-    WaitForSeconds waitTime;
+    WaitForSeconds wait;
     public GameObject enemyPrefab;
-    EnemyType enemyType;
 
-    private List<EnemyData> enemydata = new List<EnemyData>();
+    float time = 5;
+    int damageBuffValue = 1;
 
     public delegate List<Node> GetNodeDelegate();
-    public GetNodeDelegate GetLeafNode; // 여기서 tree 리스트 가져오기
+    public GetNodeDelegate GetLeafNode;
     List<Node> leafNodeList;
 
     public void SetNullNode() // 해당 메소드는 트리의 가위자르기 사용시 발동
@@ -33,32 +34,36 @@ public class EnemySpawner : MonoBehaviour
     public void FindNode()
     {
         leafNodeList = GetLeafNode();
+        Debug.Log(leafNodeList);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         FindNode();
-        waitTime = new WaitForSeconds(time);
+        wait = new WaitForSeconds(time);
         StartCoroutine(GenerateEnemy());
     }
 
     IEnumerator GenerateEnemy()
     {
-        var enemy = Instantiate(enemyPrefab,transform.position,Quaternion.identity).GetComponent<Enemy>();
-        var _randomNum = System.Enum.GetValues(typeof(EnemyType)).Length;
-        enemies.Add(enemy);
-        enemy.EnemyData = enemydata[_randomNum];
-        enemy.SetFisrtNode(leafNodeList[Random.Range(0,leafNodeList.Count)]);
-        // 에네미의 성능을 스크립터블 오브젝트로 처리해야함.
-        yield return waitTime;
+        while (true)
+        {
+            var enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity).GetComponent<Enemy>();
+            var _randomNum = System.Enum.GetValues(typeof(EnemyType)).Length;
+            enemies.Add(enemy);
+            enemy.EnemyData = enemydata[_randomNum-1];
+            enemy.SetFisrtNode(leafNodeList[Random.Range(0, leafNodeList.Count)]);
+            // 에네미의 성능을 스크립터블 오브젝트로 처리해야함.
+            yield return wait;
+        }
     }
 
     void EnemyBuff() // 스탯에 따른 분기 구현해야함
     {
         for (int i = 0; i < enemies.Count; i++)
         {
-            enemies[i].Damage = 1.1f;
+            enemies[i].Damage = damageBuffValue;
         }
     }
 }

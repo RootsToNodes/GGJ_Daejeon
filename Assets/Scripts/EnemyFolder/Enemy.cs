@@ -8,13 +8,13 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    private float hp;
-    private float damage;
+    private int hp;
+    private int damage;
     private float moveSpeed;
     
 
-    public float Hp { get { return hp; } set { hp = value; } }
-    public float Damage { get { return damage; } set { damage *= value; } }
+    public int Hp { get { return hp; } set { hp = value; } }
+    public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
     private EnemyData enemyData;
 

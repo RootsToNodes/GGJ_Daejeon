@@ -18,11 +18,13 @@ public class Tree : MonoBehaviour
     private List<Node> leafNodeList = new List<Node>();
     private void SearchLeafNode(Node node)
     {
+        leafNodeList.Clear();
         for (int i = 0; i < node.children.Count; i++)
         {
             if (node.children[i] == null)
             {
-                leafNodeList.Add(node.children[i]);
+                leafNodeList.Add(node);
+                Debug.Log(node);
             }
             else
             {
@@ -41,14 +43,14 @@ public class Tree : MonoBehaviour
 
     private int treeLevel = 1;
 
-    private void Start()
+    private void Awake()
     {
         roots = CreateNewNode(null, new NodeStatus());
-
+        leafNodeList.Add(roots);
         /* ----------------------- KMS*/
         for (int i = 0; i < enemySpawner.Length; i++)
         {
-            enemySpawner[i].GetLeafNode = GetLeafNodes;  
+            enemySpawner[i].GetLeafNode = GetLeafNodes;
         }
         /* ---------- 스포너 델리게이트 부착 ------------- KMS*/
 
