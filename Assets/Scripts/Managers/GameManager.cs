@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private CameraMovement cameraMove;
     [SerializeField] private MinimapCamera minimapCamera;
-    
+
     [SerializeField] private SelectPopup selectPopup;
 
     float distanceFromNode = 20f;
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     {
         SetSpawnerLeafNodeList();
     }
+
     private void Update()
     {
         CheckInput();
@@ -35,17 +36,18 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit, Mathf.Infinity,nodeLayerMask))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit, Mathf.Infinity,
+                    nodeLayerMask))
             {
                 if (hit.collider.TryGetComponent(typeof(Node), out var node))
                 {
                     selectPopup.SetTargetNode((Node) node);
                     cameraMove.FocusToTarget(node.transform.position);
                 }
-                else
-                {
-                    selectPopup.OnClickClose();
-                }
+            }
+            else
+            {
+                selectPopup.OnClickClose();
             }
         }
     }
@@ -54,11 +56,11 @@ public class GameManager : MonoBehaviour
     {
         tree.CreateNewNode(node, new NodeStatus());
         SetSpawnerLeafNodeList();
-        
+
         minimapCamera.UpdateMiniMapCamera(tree.treeArea);
         cameraMove.SetBorder(tree.treeArea);
     }
-    
+
     private void SetSpawnerLeafNodeList()
     {
         foreach (var spawner in enemySpawner)
@@ -67,5 +69,4 @@ public class GameManager : MonoBehaviour
             spawner.transform.position = new Vector2(tree.treeArea.position.x + distanceFromNode, spawner.transform.position.y);
         }
     }
-    
 }
