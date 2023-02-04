@@ -6,6 +6,14 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager instance;
+    
+    public static GameManager GetInstance()
+    {
+        return instance;
+    }
+    
+    
     [SerializeField] private LayerMask nodeLayerMask;
     [SerializeField] private Tree tree;
     [SerializeField] EnemySpawner[] enemySpawner;
