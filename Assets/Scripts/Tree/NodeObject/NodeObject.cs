@@ -9,7 +9,7 @@ public abstract class NodeObject : MonoBehaviour
 
     public float hp { get; private set; }
 
-    private Node node;
+    protected Node node;
     
     public virtual void Initialization(Node node)
     {

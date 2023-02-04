@@ -1,33 +1,32 @@
+using System;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 
 public class Enemy : MonoBehaviour
 {
     private const float TempSpeedValue = 1;
+    
+    private AudioEnum sound = AudioEnum.StartSound;
 
-
-    private int hp;
+    private float hp;
     private int damage;
     private float attackSpeed;
     private float moveSpeed;
     private string enemyName;
-    private AudioEnum enemyAudio;
-    private int enemyMoney;
 
     [Header("���� �ּ� �Ÿ�")]
     public float attackRange = 0.5f;
-
-
-    public int Hp { get { return hp; }}
+    
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
-    public AudioEnum EnemyAudio { get { return enemyAudio; } set { EnemyAudio = value; } }
-    public int EnemyMoney { get { return enemyMoney; } set { enemyMoney = value; } }
     public string Name { get { return enemyName; }}
+
 
     private Node currentNode;
     private Node nextTargetNode;
@@ -37,18 +36,21 @@ public class Enemy : MonoBehaviour
 
     private float lastAttackTime;
 
-    public void Initialize(EnemyData enemyData)
+    private UnityAction<Enemy> onDie;
+
+    public void Initialize(EnemyData enemyData, UnityAction<Enemy> onDie)
     {
         canMoving = false;
+        
         hp = enemyData.Hp;
         damage = enemyData.Damage;
         attackSpeed = enemyData.AttackSpeed;
         moveSpeed = enemyData.MoveSpeed;
-        enemyMoney = enemyData.EnemyMoney;
-        enemyAudio = enemyData.EnemyAudio;
-        enemyName = enemyData.EnemyName;
+        enemyName = enemyData.name;
 
-        SoundManager.PlaySound(enemyAudio);
+        this.onDie = onDie;
+        
+        SoundManager.PlaySound(sound);
     }
     
     public void SetFisrtNode(Node node)
@@ -162,9 +164,9 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    public void GetDamaged()
+    public void OnDamage(float amount)
     {
-        hp -= damage;
+        hp -= amount;
         if (hp <= 0)
         {
             Die();
@@ -173,6 +175,8 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        onDie?.Invoke(this);
+        
         switch (enemyName)
         {
             case "normal":
@@ -188,6 +192,8 @@ public class Enemy : MonoBehaviour
             default:
                 break;
         }
+        
+        Destroy(gameObject);
     }
     
     
