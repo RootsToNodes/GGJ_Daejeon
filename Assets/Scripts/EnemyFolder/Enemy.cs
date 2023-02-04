@@ -24,7 +24,9 @@ public class Enemy : MonoBehaviour
     public int Hp { get { return hp; }}
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
-    
+    public string Name { get { return enemyName; }}
+
+
     private Node currentNode;
     private Node nextTargetNode;
 
@@ -42,7 +44,6 @@ public class Enemy : MonoBehaviour
         moveSpeed = enemyData.MoveSpeed;
         enemyName = enemyData.name;
         
-        TestSound();
         SoundManager.PlaySound(sound);
     }
     
@@ -99,11 +100,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private Vector3 originPosition ;
-    public float shake_decay = 0.01f;
-    public float shake_intensity = .2f;
-    public bool isShaking = false;
-
+    
     private void MoveToNode()
     {
         var dir = (transform.position - currentNode.transform.position);
@@ -189,10 +186,6 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    public void TestSound()
-    {
-        var random = Random.Range(1,System.Enum.GetValues(typeof(AudioEnum)).Length);
-        sound = (AudioEnum)(random-1);
-    }
+    
 
 }
