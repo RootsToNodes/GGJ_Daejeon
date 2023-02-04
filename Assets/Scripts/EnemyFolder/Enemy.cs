@@ -99,6 +99,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private Vector3 originPosition ;
+    public float shake_decay = 0.01f;
+    public float shake_intensity = .2f;
+    public bool isShaking = false;
+
     private void MoveToNode()
     {
         var dir = (transform.position - currentNode.transform.position);
@@ -189,16 +194,5 @@ public class Enemy : MonoBehaviour
         var random = Random.Range(1,System.Enum.GetValues(typeof(AudioEnum)).Length);
         sound = (AudioEnum)(random-1);
     }
-
-    /*���� �����ϴ� �ó�����.
-    �� �Ǵ� �ð��� ���� ���� �ĵ��´�.
-    ���� ������ ��ġ���� spawner�� ���� �����ȴ�.
-    �����ɶ� ���� ������ �������� �����ȴ� (���� ��ü, ���� ��ü)
-    ���� ������带 ���� ������ �����Ѵ�. -> ������� Ž��
-
-    ���� ������忡 ������� �ش� ������Ʈ�� �����Ѵ�. (��, ���, �Ǵ� ��ž)
-    ���� ��带 �����ϸ� ���� ü���� ȸ���ǰ� ��ü���� �����Ѵ�. (�������� ����?)
-    ���� ��Ʈ ��忡 ������ ������ ����ȴ�.
-    */
 
 }
