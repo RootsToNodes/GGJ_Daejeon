@@ -10,6 +10,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Tree tree;
     [SerializeField] EnemySpawner[] enemySpawner;
 
+    [SerializeField] private MinimapCamera minimapCamera;
+    
+    [SerializeField] private SelectPopup selectPopup;
+
+    private void Awake()
+    {
+        selectPopup.onClickAddChild = OnClickAddChild;
+    }
+
     private void Start()
     {
         SetSpawnerLeafNodeList();
@@ -28,15 +37,23 @@ public class GameManager : MonoBehaviour
 
             if (hit.collider != null && hit.collider.TryGetComponent(typeof(Node), out var node))
             {
-                //일단 대충 터치만하면 2개 만듬
-                tree.CreateNewNode((Node) node, new NodeStatus());
-                tree.CreateNewNode((Node) node, new NodeStatus());
-
-                SetSpawnerLeafNodeList();
+                selectPopup.SetTargetNode((Node) node);
+            }
+            else
+            {
+                selectPopup.OnClickClose();
             }
         }
     }
 
+    private void OnClickAddChild(Node node)
+    {
+        tree.CreateNewNode(node, new NodeStatus());
+        SetSpawnerLeafNodeList();
+        
+        minimapCamera.UpdateMiniMapCamera(tree);
+    }
+    
     private void SetSpawnerLeafNodeList()
     {
         foreach (var spawner in enemySpawner)
