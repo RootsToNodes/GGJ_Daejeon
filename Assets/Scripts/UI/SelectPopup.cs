@@ -6,8 +6,7 @@ using UnityEngine.Events;
 
 public class SelectPopup : MonoBehaviour
 {
-    private readonly int OpenAnimationKey = Animator.StringToHash("Open");
-    private readonly int CloseAnimationKey = Animator.StringToHash("Close");
+    private readonly int IsOnAnimationKey = Animator.StringToHash("IsOn");
 
     private Node targetNode;
     private Animator animator;
@@ -32,13 +31,13 @@ public class SelectPopup : MonoBehaviour
 
     public void SetTargetNode(Node node)
     {
-        animator.SetTrigger(OpenAnimationKey);
+        animator.SetBool(IsOnAnimationKey, true);
         targetNode = node;
     }
 
     public void OnClickClose()
     {
-        animator.SetTrigger(CloseAnimationKey);
+        animator.SetBool(IsOnAnimationKey, false);
         onClickClose?.Invoke(targetNode);
     }
 
