@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using TMPro;
 
 [Serializable]
 public struct NodeStatus
@@ -56,6 +58,10 @@ public class Node : MonoBehaviour
     [SerializeField] private Turret turret;
     [SerializeField] private Barrier barrier;
 
+    [SerializeField] private Image hpGuage;
+    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI statusText;
+    
     private NodeStatus status;
     public NodeStatus currentStatus { get; private set; }
 
@@ -95,8 +101,8 @@ public class Node : MonoBehaviour
 
         this.onDestroy = onDestroy;
 
-        turret.Initialization(this);
-        barrier.Initialization(this);
+        turret.Initialization(this, 100);
+        barrier.Initialization(this, 100);
 
         SetEvents();
         turret.SetEnable(true);
@@ -182,6 +188,11 @@ public class Node : MonoBehaviour
                 onDestroy?.Invoke(this);
             }
         }
+    }
+
+    private void SetHpUI()
+    {
+        var tortalMaxHp = 500;
     }
     
 }

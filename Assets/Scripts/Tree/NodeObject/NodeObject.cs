@@ -11,8 +11,9 @@ public abstract class NodeObject : MonoBehaviour
 
     protected Node node;
     
-    public virtual void Initialization(Node node)
+    public virtual void Initialization(Node node, float hp)
     {
+        this.hp = hp;
         this.node = node;
     }
 
