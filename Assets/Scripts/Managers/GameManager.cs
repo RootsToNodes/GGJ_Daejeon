@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         selectPopup.onClickAddChild = OnClickAddChild;
+        selectPopup.onClickRemoveNode = OnClickRemoveNode;
+        //selectPopup.onClickHealing = 
     }
 
     private void Start()
@@ -73,6 +75,11 @@ public class GameManager : MonoBehaviour
 
         minimapCamera.UpdateMiniMapCamera(tree.treeArea);
         cameraMove.SetBorder(tree.treeArea);
+    }
+
+    private void OnClickRemoveNode(Node node)
+    {
+        tree.RemoveNode(node);
     }
 
     private void SetSpawnerLeafNodeList()

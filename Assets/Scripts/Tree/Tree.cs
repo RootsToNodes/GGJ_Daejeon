@@ -42,7 +42,7 @@ public class Tree : MonoBehaviour
     public Node CreateNewNode(Node parent, NodeStatus status)
     {
         var node = Instantiate(originPrefab, transform);
-        node.Initialization(parent, status);
+        node.Initialization(parent, status, RemoveNode);
 
         if (node.nodeLevel > treeLevel)
         {
@@ -57,6 +57,37 @@ public class Tree : MonoBehaviour
         }
 
         return node;
+    }
+
+    public void RemoveNode(Node target)
+    {
+        if (target == roots)
+        {
+            return;
+        }
+
+        List<Node> nodes = new List<Node>();
+
+        void GetAllChildren(Node curNode)
+        {
+            nodes.Add(curNode);
+
+            foreach (var node in curNode.children)
+            {
+                GetAllChildren(node);
+            }
+        }
+
+        target.parent.RemoveChild(target);
+
+        GetAllChildren(target);
+
+        foreach (var node in nodes)
+        {
+            Destroy(node.gameObject);
+        }
+
+        AlignmentNodes();
     }
 
     private void AlignmentNodes()
@@ -92,7 +123,7 @@ public class Tree : MonoBehaviour
 
             child.SetPosition(curNodePos + pos);
 
-            AlignmentNodes(child,  ref area, level + 1);
+            AlignmentNodes(child, ref area, level + 1);
         }
     }
 }

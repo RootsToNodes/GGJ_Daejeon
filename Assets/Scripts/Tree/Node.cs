@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -64,7 +65,8 @@ public class Node : MonoBehaviour
 
     public float hp { get; private set; }
 
-    private readonly UnityEvent<int> onHealing = new UnityEvent<int>();
+    private readonly UnityEvent<float> onHealing = new UnityEvent<float>();
+    private UnityAction<Node> onDestroy;
 
     public Vector2 destPosition { get; private set; }
 
@@ -80,7 +82,7 @@ public class Node : MonoBehaviour
         }
     }
 
-    public void Initialization(Node parent, NodeStatus status)
+    public void Initialization(Node parent, NodeStatus status,UnityAction<Node> onDestroy)
     {
         if (parent)
         {
@@ -90,6 +92,8 @@ public class Node : MonoBehaviour
         this.parent = parent;
         this.status = status;
         currentStatus = CalculateStatus(status);
+
+        this.onDestroy = onDestroy;
 
         turret.Initialization(this);
         barrier.Initialization(this);
@@ -159,19 +163,25 @@ public class Node : MonoBehaviour
         destPosition = pos;
     }
 
-    public void OnDamage(float damage)
+    public void OnDamage(float amount)
     {
         if (barrier.hp > 0)
         {
-            
+            barrier.OnDamage(amount);
         }
         else if (turret.hp > 0)
         {
-            
+            turret.OnDamage(amount);
         }
         else
         {
-            
+            hp -= Mathf.Max(amount - currentStatus.defense, 0);
+
+            if (hp < 0)
+            {
+                onDestroy?.Invoke(this);
+            }
         }
     }
+    
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class NodeObject : MonoBehaviour
 {
 
-    public float hp { get; private set; }
+    public float hp { get; protected set; }
 
     protected Node node;
     
@@ -16,7 +16,7 @@ public abstract class NodeObject : MonoBehaviour
         this.node = node;
     }
 
-    public abstract void OnDamage(int amount);
-    public abstract void OnHealing(int amount);
+    public abstract void OnDamage(float amount);
+    public abstract void OnHealing(float amount);
 
 }
