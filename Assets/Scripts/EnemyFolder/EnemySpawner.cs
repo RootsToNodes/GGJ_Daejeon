@@ -20,27 +20,24 @@ public class EnemySpawner : MonoBehaviour
     float time = 5;
     int damageBuffValue = 1;
 
-    public delegate List<Node> GetNodeDelegate();
-    public GetNodeDelegate GetLeafNode;
-    List<Node> leafNodeList;
+    private List<Node> leafNodeList;
 
-    public void SetNullNode() // ÇØ´ç ¸Þ¼Òµå´Â Æ®¸®ÀÇ °¡À§ÀÚ¸£±â »ç¿ë½Ã ¹ßµ¿
+    public void SetLeafNodeList(List<Node> leafNodes)
+    {
+        leafNodeList = leafNodes;
+    }
+    
+    public void SetNullNode() // ï¿½Ø´ï¿½ ï¿½Þ¼Òµï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ßµï¿½
     {
         for (int i = 0; i < enemies.Count; i++)
         {
             enemies[i].SetNullNode();
         }
     }
-    public void FindNode()
-    {
-        leafNodeList = GetLeafNode();
-        Debug.Log(leafNodeList);
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        FindNode();
         wait = new WaitForSeconds(time);
         StartCoroutine(GenerateEnemy());
     }
@@ -54,12 +51,12 @@ public class EnemySpawner : MonoBehaviour
             enemies.Add(enemy);
             enemy.EnemyData = enemydata[_randomNum-1];
             enemy.SetFisrtNode(leafNodeList[Random.Range(0, leafNodeList.Count)]);
-            // ¿¡³×¹ÌÀÇ ¼º´ÉÀ» ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ®·Î Ã³¸®ÇØ¾ßÇÔ.
+            // ï¿½ï¿½ï¿½×¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½Íºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½.
             yield return wait;
         }
     }
 
-    void EnemyBuff() // ½ºÅÈ¿¡ µû¸¥ ºÐ±â ±¸ÇöÇØ¾ßÇÔ
+    void EnemyBuff() // ï¿½ï¿½ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
     {
         for (int i = 0; i < enemies.Count; i++)
         {

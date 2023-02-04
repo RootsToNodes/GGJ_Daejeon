@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private LayerMask nodeLayerMask;
     [SerializeField] private Tree tree;
+    [SerializeField] EnemySpawner[] enemySpawner;
 
     private void Update()
     {
@@ -25,7 +27,18 @@ public class GameManager : MonoBehaviour
                 //일단 대충 터치만하면 2개 만듬
                 tree.CreateNewNode((Node) node, new NodeStatus());
                 tree.CreateNewNode((Node) node, new NodeStatus());
+
+                SetSpawnerLeafNodeList();
             }
         }
     }
+
+    private void SetSpawnerLeafNodeList()
+    {
+        foreach (var spawner in enemySpawner)
+        {
+            spawner.SetLeafNodeList(tree.GetLeafNodes());
+        }
+    }
+    
 }
