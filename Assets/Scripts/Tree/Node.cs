@@ -128,7 +128,7 @@ public class Node : MonoBehaviour
 
         this.parent = parent;
         this.status = status;
-        currentStatus = CalculateStatus(status);
+        currentStatus = CalculateStatus(new NodeStatus());
 
         if (parent == null)
         {
