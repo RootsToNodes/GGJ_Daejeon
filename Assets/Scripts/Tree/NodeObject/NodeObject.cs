@@ -6,7 +6,6 @@ using UnityEngine;
 
 public abstract class NodeObject : MonoBehaviour
 {
-
     public float hp { get; protected set; }
 
     protected Node node;
@@ -19,5 +18,4 @@ public abstract class NodeObject : MonoBehaviour
 
     public abstract void OnDamage(float amount);
     public abstract void OnHealing(float amount);
-
 }

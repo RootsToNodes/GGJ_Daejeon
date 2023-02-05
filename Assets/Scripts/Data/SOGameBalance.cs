@@ -8,6 +8,9 @@ public class SOGameBalance : ScriptableObject
     [SerializeField] private int _maxLevel;
     public int MaxLevel => _maxLevel;
     
+    [SerializeField] private int _maxChildCount;
+    public int MaxChildCount => _maxChildCount;
+    
     [SerializeField] private AnimationCurve _difficultCurve;
     public AnimationCurve DifficultCurve => _difficultCurve;
     
@@ -16,4 +19,7 @@ public class SOGameBalance : ScriptableObject
 
     [SerializeField] private NodeStatus _maxNodeStatus;
     public NodeStatus MaxNodeStatus => _maxNodeStatus;
+
+    [SerializeField] private float[] _possibility;
+    public float[] Possibility => _possibility;
 }

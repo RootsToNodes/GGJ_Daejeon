@@ -41,15 +41,28 @@ public class CircleLayoutGroup : LayoutGroup
     void CalculateRadial()
     {
         m_Tracker.Clear();
-        if (transform.childCount == 0)
+
+
+        var childCount = 0;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.activeInHierarchy)
+            {
+                childCount++;
+            }
+        }
+
+
+        if (childCount == 0)
             return;
-        float fOffsetAngle = ((MaxAngle - MinAngle)) / (transform.childCount);
+        
+        float fOffsetAngle = ((MaxAngle - MinAngle)) / (childCount);
 
         float fAngle = StartAngle;
         for (int i = 0; i < transform.childCount; i++)
         {
             RectTransform child = (RectTransform) transform.GetChild(i);
-            if (child != null)
+            if (child != null && child.gameObject.activeInHierarchy)
             {
                 //Adding the elements to the tracker stops the user from modifiying their positions via the editor.
                 m_Tracker.Add(this, child,

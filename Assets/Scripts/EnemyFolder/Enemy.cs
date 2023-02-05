@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
     private float gap = 1f;
 
     [Header("���� �ּ� �Ÿ�")]
-    public float attackRange = 0.5f;
+    public float attackRange = 1;
     
     public int Damage { get { return damage; } set { damage += value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }

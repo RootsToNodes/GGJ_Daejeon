@@ -12,7 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b26c9c8245c049cfb49bc48b3957d3f, type: 3}
   m_Name: Balance Data
   m_EditorClassIdentifier: 
-  _firstNodeStatus:
+  _maxLevel: 10
+  _maxChildCount: 3
+  _difficultCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.5195549
+      outSlope: -0.5195549
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.10608161
+    - serializedVersion: 3
+      time: 1
+      value: 0.1
+      inSlope: 0.034923162
+      outSlope: 0.034923162
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06421554
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _initialNodeStatus:
+    attackPower: 2
+    attackSpeed: 1
+    shotRange: 10
+    rotationSpeed: 0
+    bulletForm: 0
+    bulletCount: 0
+    bulletSpeed: 0
+    bulletLifeTime: 0
+    defense: 0
+  _maxNodeStatus:
     attackPower: 0
     attackSpeed: 0
     shotRange: 0
@@ -22,3 +58,4 @@ MonoBehaviour:
     bulletSpeed: 0
     bulletLifeTime: 0
     defense: 0
+  _possibility: []

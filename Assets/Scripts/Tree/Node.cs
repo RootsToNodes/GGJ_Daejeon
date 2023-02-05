@@ -16,7 +16,7 @@ public struct NodeStatus
         Radial,
     }
     
-    public float attackPower;
+    public int attackPower;
     public float attackSpeed;
 
     public float shotRange;
