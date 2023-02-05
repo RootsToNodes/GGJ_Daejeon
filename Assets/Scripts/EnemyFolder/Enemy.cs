@@ -27,14 +27,36 @@ public class Enemy : MonoBehaviour
     private int enemyMoney;
     private float gap = 1f;
 
-    [Header("���� �ּ� �Ÿ�")]
-    public float attackRange = 1;
-    
-    public int Damage { get { return damage; } set { damage += value; } }
-    public float MoveSpeed { get { return moveSpeed; } set { moveSpeed *= value; } }
-    public AudioEnum EnemyAudio { get { return enemyAudio; } set { EnemyAudio = value; } }
-    public int EnemyMoney { get { return enemyMoney; } set { enemyMoney = value; } }
-    public string Name { get { return enemyName; }}
+    [Header("���� �ּ� �Ÿ�")] public float attackRange = 1;
+
+    public int Damage
+    {
+        get { return damage; }
+        set { damage += value; }
+    }
+
+    public float MoveSpeed
+    {
+        get { return moveSpeed; }
+        set { moveSpeed *= value; }
+    }
+
+    public AudioEnum EnemyAudio
+    {
+        get { return enemyAudio; }
+        set { EnemyAudio = value; }
+    }
+
+    public int EnemyMoney
+    {
+        get { return enemyMoney; }
+        set { enemyMoney = value; }
+    }
+
+    public string Name
+    {
+        get { return enemyName; }
+    }
 
     private Node currentNode;
     private Node nextTargetNode;
@@ -49,7 +71,7 @@ public class Enemy : MonoBehaviour
     public void Initialize(EnemyData enemyData, UnityAction<Enemy> onDie)
     {
         canMoving = false;
-        
+
         hp = enemyData.Hp;
         damage = enemyData.Damage;
         attackSpeed = enemyData.AttackSpeed;
@@ -59,9 +81,8 @@ public class Enemy : MonoBehaviour
         enemyName = enemyData.EnemyName;
 
         this.onDie = onDie;
-        
     }
-    
+
     public void SetFisrtNode(Node node)
     {
         currentNode = node;
@@ -72,6 +93,7 @@ public class Enemy : MonoBehaviour
     {
         nextTargetNode = currentNode.parent;
     }
+
     public void SetNullNode()
     {
         nextTargetNode = null;
@@ -81,7 +103,7 @@ public class Enemy : MonoBehaviour
     {
         canMoving = true;
     }
-    
+
     private void Update()
     {
         if (canMoving)
@@ -89,16 +111,15 @@ public class Enemy : MonoBehaviour
             if (currentNode == null)
             {
                 currentNode = nextTargetNode;
-
-                while (currentNode.children.Count >= 1)
-                {
-                    currentNode = currentNode.children[0];
-                }
-                
                 SetNextNode();
                 isAttacking = false;
             }
-            
+
+            while (currentNode != null && currentNode.children.Count >= 1)
+            {
+                currentNode = currentNode.children[0];
+            }
+
             if (isAttacking)
             {
                 AttackNode();
@@ -120,22 +141,24 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    
+
     private void MoveToNode()
     {
         if (currentNode == null)
         {
             return;
         }
+
         var dir = (transform.position - currentNode.transform.position);
         var moveDelta = Time.deltaTime * moveSpeed * TempSpeedValue;
         unitedPos = new Vector2((currentNode.transform.position.x + gap), currentNode.transform.position.y);
 
         transform.position = Vector3.MoveTowards(this.transform.position, unitedPos, moveDelta);
 
-        float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
+        Debug.Log(currentNode + "+" + currentNode.transform.position);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle + 90);
-        
+
         if (dir.sqrMagnitude <= attackRange * attackRange)
         {
             isAttacking = true;
@@ -153,21 +176,20 @@ public class Enemy : MonoBehaviour
         {
             SoundManager.PlaySound(AudioEnum.EnemyAttack);
             lastAttackTime = Time.time;
-            
+
             currentNode.OnDamage(damage);
-            
+
             Shake();
         }
-        
+
         if ((transform.position - currentNode.transform.position).sqrMagnitude > (attackRange * 2) * (attackRange * 2))
         {
             isAttacking = false;
         }
     }
-    
-    
-    
-    private Vector3 originPosition ;
+
+
+    private Vector3 originPosition;
     public float shakeDecay = 0.01f;
     public float shakeIntensity = .4f;
     public bool isShaking = false;
@@ -183,7 +205,7 @@ public class Enemy : MonoBehaviour
             tempShakeIntensity = shakeIntensity;
         }
     }
-    
+
     public void OnDamage(float amount)
     {
         hp -= amount;
@@ -197,7 +219,7 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         onDie?.Invoke(this);
-        
+
         switch (enemyName)
         {
             case "normal":
@@ -215,10 +237,7 @@ public class Enemy : MonoBehaviour
             default:
                 break;
         }
-        GameManager.instance.CheckEndGame();
+
         Destroy(gameObject);
     }
-    
-    
-
 }

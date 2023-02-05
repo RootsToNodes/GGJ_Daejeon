@@ -38,7 +38,7 @@ public struct NodeStatus
         status.shotRange = a.shotRange + b.shotRange;
         status.rotationSpeed = a.rotationSpeed + b.rotationSpeed;
 
-        status.bulletForm = b.bulletForm == BulletForm.None ? b.bulletForm : a.bulletForm;
+        status.bulletForm = b.bulletForm == BulletForm.None ? a.bulletForm : b.bulletForm;
         status.bulletCount = a.bulletCount + b.bulletCount;
         status.bulletSpeed = a.bulletSpeed + b.bulletSpeed;
         status.bulletLifeTime = a.bulletLifeTime + b.bulletLifeTime;

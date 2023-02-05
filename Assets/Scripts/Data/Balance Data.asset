@@ -56,7 +56,7 @@ MonoBehaviour:
     attackSpeed: 0.1
     shotRange: 3
     rotationSpeed: 4
-    bulletForm: 1
+    bulletForm: 2
     bulletCount: 2
     bulletSpeed: 3
     bulletLifeTime: 4

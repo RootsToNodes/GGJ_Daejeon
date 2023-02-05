@@ -16,7 +16,7 @@ MonoBehaviour:
   hp: 10
   attackSpeed: 1
   damage: 1
-  moveSpeed: 1
+  moveSpeed: 1.5
   enemyPrefab: {fileID: 2795750062524328895, guid: fb5ade2e9e1ac514bbed8973ffc90e65,
     type: 3}
   enemyAudio: 2
