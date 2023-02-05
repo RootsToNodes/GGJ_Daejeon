@@ -227,6 +227,7 @@ public class Node : MonoBehaviour
             if (hp < 0)
             {
                 onDestroy?.Invoke(this);
+                SoundManager.PlaySound(AudioEnum.Defeat);
             }
         }
     }

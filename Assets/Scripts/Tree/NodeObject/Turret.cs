@@ -17,6 +17,7 @@ public class Turret : NodeObject
     private Enemy targetEnemy;
     private float lastAttackTime;
 
+    private Animator animator;
     private bool isOn;
 
     public override void OnDamage(float amount)
@@ -39,7 +40,7 @@ public class Turret : NodeObject
 
     public void SetEnable(bool enable)
     {
-        
+        animator = GetComponent<Animator>();
         isOn = enable;
         gun.SetActive(enable);
     }
@@ -70,6 +71,9 @@ public class Turret : NodeObject
         if (lastAttackTime + node.currentStatus.attackSpeed < Time.time)
         {
             lastAttackTime = Time.time;
+            SoundManager.PlaySound(AudioEnum.TurretAttack);
+            animator.SetTrigger("attackTrigger");
+
             FireBullet();
         }
     }

@@ -79,17 +79,16 @@ public class EnemySpawner : MonoBehaviour
             enemy.Initialize(enemyData, OnEnemyDie);
 
             enemiseList.Add(enemy);
-            
 
-            
+
             if (enemiseList.Count >= waveLevelDictionary[waveLevel])
             {
+                SoundManager.PlaySound(AudioEnum.StartSound);
+                yield return new WaitForSeconds(2f);
                 for (int i = 0; i < enemiseList.Count; i++)
                 {
                     enemiseList[i].SetFisrtNode(leafNodeList[Random.Range(0, leafNodeList.Count)]);
                     enemiseList[i].StartMove();
-                    SoundManager.PlaySound(AudioEnum.StartSound);
-
                 }
                 Debug.Log(enemiseList.Count);
                 yield break;

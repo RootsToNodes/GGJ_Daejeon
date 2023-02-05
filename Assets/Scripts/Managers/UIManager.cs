@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIManager : Manager<UIManager>
 {
+    // 1. UI
     public static void ShowUI()
     {
         

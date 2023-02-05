@@ -25,6 +25,7 @@ public class DataManager : Manager<DataManager>
     public static void GetMoney(int money) // �ڿ� ȹ��
     {
         GetInstance().resourse.money += money;
+        SoundManager.PlaySound(AudioEnum.Money);
         GetInstance().PrintResource();
 
     }

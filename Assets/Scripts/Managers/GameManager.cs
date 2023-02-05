@@ -78,8 +78,8 @@ public class GameManager : MonoBehaviour
             defense = 5
         };
         
-        
         tree.CreateNewNode(node, status);
+        SoundManager.PlaySound(AudioEnum.Build);
         SetSpawnerLeafNodeList();
 
         minimapCamera.UpdateMiniMapCamera(tree.treeArea);
@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
 
     private void OnClickRemoveNode(Node node)
     {
+        SoundManager.PlaySound(AudioEnum.Cut);
         tree.RemoveNode(node);
         SetSpawnerLeafNodeList();
     }

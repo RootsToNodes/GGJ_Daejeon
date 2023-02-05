@@ -12,6 +12,11 @@ public enum AudioEnum : int
     EnemyDie,
     Defeat,
     StartSound,
+    Money,
+    CountDown,
+    Build,
+    Cut,
+    Win
 }
 public class SoundManager : Manager<SoundManager>
 {
