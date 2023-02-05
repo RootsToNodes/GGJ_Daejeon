@@ -32,6 +32,13 @@ public class EnemySpawner : MonoBehaviour
     public void SetLeafNodeList(List<Node> leafNodes)
     {
         leafNodeList = leafNodes;
+        if (enemiseList?.Count != 0)
+        {
+            for (int i = 0; i < enemiseList.Count; i++)
+            {
+                enemiseList[i]?.SetFisrtNode(leafNodeList[Random.Range(0, leafNodeList.Count)]);
+            }
+        }
     }
 
     // Start is called before the first frame update

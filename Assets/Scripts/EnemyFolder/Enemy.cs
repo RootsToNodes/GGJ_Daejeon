@@ -75,7 +75,6 @@ public class Enemy : MonoBehaviour
     public void SetNullNode()
     {
         nextTargetNode = null;
-        // ��尡 ���� �Ĵ� ��� ó���ұ�?
     }
 
     public void StartMove()
@@ -118,6 +117,10 @@ public class Enemy : MonoBehaviour
     
     private void MoveToNode()
     {
+        if (currentNode == null)
+        {
+            return;
+        }
         var dir = (transform.position - currentNode.transform.position);
         var moveDelta = Time.deltaTime * moveSpeed * TempSpeedValue;
         unitedPos = new Vector2((currentNode.transform.position.x + gap), currentNode.transform.position.y);

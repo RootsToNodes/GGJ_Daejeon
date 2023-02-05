@@ -66,6 +66,7 @@ public class Tree : MonoBehaviour
             return;
         }
 
+
         List<Node> nodes = new List<Node>();
 
         void GetAllChildren(Node curNode)

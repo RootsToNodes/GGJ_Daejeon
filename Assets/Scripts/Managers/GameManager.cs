@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
     private void OnClickRemoveNode(Node node)
     {
         tree.RemoveNode(node);
+        SetSpawnerLeafNodeList();
     }
 
     private void SetSpawnerLeafNodeList()
