@@ -19,6 +19,6 @@ public class Barrier : NodeObject
     {
         gameObject.SetActive(true);
 
-        hp += amount;
+        hp = amount;
     }
 }

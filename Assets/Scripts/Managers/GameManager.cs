@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         selectPopup.onClickAddChild = OnClickAddChild;
         selectPopup.onClickRemoveNode = OnClickRemoveNode;
         selectPopup.onClickClose = OnClickCloseButton;
-        //selectPopup.onClickHealing = 
+        selectPopup.onClickHealing = OnClickRepairButton;
     }
 
     private void Start()
@@ -69,6 +69,11 @@ public class GameManager : MonoBehaviour
     private void OnClickAddChild(Node node)
     {
         SoundManager.PlaySound(AudioEnum.Build);
+        if (!DataManager.CheckResource(balance.AddChildCost))
+        {
+            return;
+        }
+        
         tree.CreateNewNode(node, Balance.GetRandomStatus(node.nodeLevel));
         SetSpawnerLeafNodeList();
 
@@ -78,11 +83,26 @@ public class GameManager : MonoBehaviour
 
     private void OnClickRemoveNode(Node node)
     {
+        if (!DataManager.CheckResource(balance.RemoveNodeCost))
+        {
+            return;
+        }
+        
         SoundManager.PlaySound(AudioEnum.Cut);
         tree.RemoveNode(node);
         SetSpawnerLeafNodeList();
     }
 
+    private void OnClickRepairButton(Node node)
+    {
+        if (!DataManager.CheckResource(balance.RepairCost))
+        {
+            return;
+        }
+        
+        node.Repair();;
+    }
+    
     private void OnClickCloseButton(Node node)
     {
         panelUI.CloseStatusUI();
@@ -105,6 +125,8 @@ public class GameManager : MonoBehaviour
         }
 
         wave++;
+        
+        panelUI.UpdateWaveText(wave, 10);
     }
 
     public Enemy GetEnemyInRange(Vector2 position, float range)
@@ -121,5 +143,10 @@ public class GameManager : MonoBehaviour
         }
 
         return null;
+    }
+    
+    public void UpdatePanelUI()
+    {
+        panelUI.UpdateCostText();
     }
 }

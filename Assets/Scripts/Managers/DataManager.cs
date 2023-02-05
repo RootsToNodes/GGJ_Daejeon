@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public struct Resourse
 {
@@ -15,9 +16,9 @@ public struct Resourse
 }
 public class DataManager : Manager<DataManager>
 {
-    private Resourse resourse;
-    private Resourse startResourse = new(0,0);
-    
+    public Resourse resourse;
+    private Resourse startResourse = new(200,0);
+
     public DataManager()
     {
         resourse = startResourse;
@@ -27,7 +28,8 @@ public class DataManager : Manager<DataManager>
         GetInstance().resourse.money += money;
         SoundManager.PlaySound(AudioEnum.Money);
         GetInstance().PrintResource();
-
+        
+        GameManager.instance.UpdatePanelUI();
     }
     public static void GetGas(int gas)
     {
@@ -43,6 +45,8 @@ public class DataManager : Manager<DataManager>
         {
             instance.resourse.money -= money;
             instance.PrintResource();
+            
+            GameManager.instance.UpdatePanelUI();
             return true;
         }
         else

@@ -22,8 +22,13 @@ public class PanelUI : MonoBehaviour
         statusUI.SetActive(false);
     }
 
-    public void SetCostText()
+    public void UpdateCostText()
     {
-        
+        moneyText.text = $"{DataManager.GetInstance().resourse.money} 골드";
+    }
+    
+    public void UpdateWaveText(int wave, int maxWave)
+    {
+        waveText.text = $"{wave} / {maxWave} 단계";
     }
 }

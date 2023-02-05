@@ -234,6 +234,13 @@ public class Node : MonoBehaviour
         destPosition = pos;
     }
 
+    public void Repair()
+    {
+        turret.OnHealing(25);
+        barrier.OnHealing(50);;
+        hp = 25;
+    }
+    
     public void OnDamage(float amount)
     {
         SoundManager.PlaySound(AudioEnum.Hited);

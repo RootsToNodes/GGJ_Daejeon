@@ -5,6 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Balance Data", menuName = "Scriptable Object/Balance Data")]
 public class SOGameBalance : ScriptableObject
 {
+    [SerializeField] private int _addChildCost;
+    public int AddChildCost => _addChildCost;
+
+    [SerializeField] private int _removeNodeCost;
+    public int RemoveNodeCost => _removeNodeCost;
+
+    [SerializeField] private int _repairCost;
+    public int RepairCost => _repairCost;
+    
+    
     [SerializeField] private int _maxLevel;
     public int MaxLevel => _maxLevel;
     

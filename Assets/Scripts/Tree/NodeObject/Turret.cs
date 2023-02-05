@@ -36,7 +36,7 @@ public class Turret : NodeObject
         gameObject.SetActive(true);
         SetEnable(true);
 
-        hp += amount;
+        hp = amount;
     }
 
     public void SetEnable(bool enable)
