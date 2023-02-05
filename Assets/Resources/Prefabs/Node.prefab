@@ -1539,8 +1539,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uACF5\uACA9\uB825 + 10\nsdsd\nsdsd"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f1c240a1b6f054ccdac2b874f6005589, type: 2}
-  m_sharedMaterial: {fileID: -7138889033204483264, guid: f1c240a1b6f054ccdac2b874f6005589,
+  m_fontAsset: {fileID: 11400000, guid: 89e1cae3affab4f3492d9168fb6d148b, type: 2}
+  m_sharedMaterial: {fileID: -7138889033204483264, guid: 89e1cae3affab4f3492d9168fb6d148b,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1575,7 +1575,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 12
   m_wordSpacing: 0
   m_lineSpacing: -50
   m_lineSpacingMax: 0

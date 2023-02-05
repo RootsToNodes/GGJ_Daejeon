@@ -41,21 +41,29 @@ MonoBehaviour:
   _initialNodeStatus:
     attackPower: 2
     attackSpeed: 1
-    shotRange: 10
-    rotationSpeed: 0
+    shotRange: 3
+    rotationSpeed: 15
     bulletForm: 0
-    bulletCount: 0
-    bulletSpeed: 0
-    bulletLifeTime: 0
+    bulletCount: 1
+    bulletSpeed: 1
+    bulletLifeTime: 5
     defense: 0
   _maxNodeStatus:
-    attackPower: 0
-    attackSpeed: 0
-    shotRange: 0
-    rotationSpeed: 0
-    bulletForm: 0
-    bulletCount: 0
-    bulletSpeed: 0
-    bulletLifeTime: 0
-    defense: 0
-  _possibility: []
+    attackPower: 2
+    attackSpeed: 0.1
+    shotRange: 3
+    rotationSpeed: 4
+    bulletForm: 1
+    bulletCount: 2
+    bulletSpeed: 3
+    bulletLifeTime: 4
+    defense: 3
+  _possibility:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0

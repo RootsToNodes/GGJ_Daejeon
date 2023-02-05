@@ -15,18 +15,18 @@ public struct NodeStatus
         Straight,
         Radial,
     }
-    
+
     public int attackPower;
     public float attackSpeed;
 
     public float shotRange;
     public float rotationSpeed;
-    
+
     public BulletForm bulletForm;
     public int bulletCount;
     public float bulletSpeed;
     public float bulletLifeTime;
-    
+
     public float defense;
 
     public static NodeStatus operator +(NodeStatus a, NodeStatus b)
@@ -37,21 +37,52 @@ public struct NodeStatus
 
         status.shotRange = a.shotRange + b.shotRange;
         status.rotationSpeed = a.rotationSpeed + b.rotationSpeed;
-        
+
         status.bulletForm = b.bulletForm == BulletForm.None ? b.bulletForm : a.bulletForm;
         status.bulletCount = a.bulletCount + b.bulletCount;
         status.bulletSpeed = a.bulletSpeed + b.bulletSpeed;
         status.bulletLifeTime = a.bulletLifeTime + b.bulletLifeTime;
-        
+
         status.defense = a.defense + b.defense;
-        
+
         return status;
+    }
+
+    public string GetUniqueStatusString()
+    {
+        string result = "";
+
+
+        if (attackPower != 0) result += $"공격력 : {attackPower}\n";
+        if (defense != 0) result += $"방어력 : {defense}\n";
+        if (attackSpeed != 0) result += $"공격 속도 : {attackSpeed}\n";
+        if (shotRange != 0) result += $"공격 범위: {shotRange}\n";
+        if (rotationSpeed != 0) result += $"회전 속도 : {rotationSpeed}\n";
+
+        if (bulletForm != 0)
+        {
+            switch (bulletForm)
+            {
+                case NodeStatus.BulletForm.Straight:
+                    result += $"발사 타입 : 연사형\n";
+                    break;
+                case NodeStatus.BulletForm.Radial:
+                    result += $"발사 타입 : 방사형\n";
+                    break;
+            }
+        }
+
+        if (bulletCount != 0) result += $"총알 개수 : {bulletCount}\n";
+        if (bulletSpeed != 0) result += $"총알 속도 : {bulletSpeed}\n";
+        if (bulletLifeTime != 0) result += $"총알 수명 : {bulletLifeTime}\n";
+
+        return result;
     }
 }
 
 public class Node : MonoBehaviour
 {
-    private const float nodeAnimationSpeed  = 3;
+    private const float nodeAnimationSpeed = 3;
 
     [SerializeField] private SpriteRenderer mainSprite;
     [SerializeField] private LineRenderer lineRenderer;
@@ -61,7 +92,7 @@ public class Node : MonoBehaviour
     [SerializeField] private Image hpGuage;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI statusText;
-    
+
     private NodeStatus status;
     public NodeStatus currentStatus { get; private set; }
 
@@ -80,7 +111,7 @@ public class Node : MonoBehaviour
     {
         var dir = ((Vector3) destPosition - transform.position).normalized;
         transform.position += dir * nodeAnimationSpeed * Time.deltaTime;
-    
+
         if (parent)
         {
             lineRenderer.SetPosition(0, transform.position);
@@ -88,7 +119,7 @@ public class Node : MonoBehaviour
         }
     }
 
-    public void Initialization(Node parent, NodeStatus status,UnityAction<Node> onDestroy)
+    public void Initialization(Node parent, NodeStatus status, UnityAction<Node> onDestroy)
     {
         if (parent)
         {
@@ -98,6 +129,15 @@ public class Node : MonoBehaviour
         this.parent = parent;
         this.status = status;
         currentStatus = CalculateStatus(status);
+
+        if (parent == null)
+        {
+            statusText.enabled = false;
+        }
+        else
+        {
+            statusText.text = status.GetUniqueStatusString();
+        }
 
         this.onDestroy = onDestroy;
 
@@ -141,14 +181,14 @@ public class Node : MonoBehaviour
     public void AddChild(Node child)
     {
         children.Add(child);
-        
+
         SetEnable(false);
     }
 
     public void RemoveChild(Node child)
     {
         children.Remove(child);
-        
+
         if (children.Count == 0)
         {
             SetEnable(true);
@@ -163,7 +203,7 @@ public class Node : MonoBehaviour
 
         turret.SetEnable(enable);
     }
-    
+
     public void SetPosition(Vector2 pos)
     {
         destPosition = pos;
@@ -195,5 +235,4 @@ public class Node : MonoBehaviour
     {
         var tortalMaxHp = 500;
     }
-    
 }

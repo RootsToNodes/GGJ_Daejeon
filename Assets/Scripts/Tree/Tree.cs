@@ -18,19 +18,7 @@ public class Tree : MonoBehaviour
 
     private void Awake()
     {
-        var status = new NodeStatus
-        {
-            attackPower = 1,
-            attackSpeed = 1,
-            shotRange = 5,
-            rotationSpeed = 10,
-            bulletSpeed = 1,
-            bulletCount = 1,
-            bulletLifeTime = 5,
-            defense = 5
-        };
-
-        roots = CreateNewNode(null, status);
+        roots = CreateNewNode(null,  GameManager.instance.Balance.InitialNodeStatus);
         leafNodeList.Add(roots);
     }
 

@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    public int wave { get; private set; } = 0;
+    
     public static GameManager instance { get; private set; }
     
     [SerializeField] private LayerMask nodeLayerMask;
@@ -16,8 +18,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MinimapCamera minimapCamera;
 
     [SerializeField] private SelectPopup selectPopup;
+    [SerializeField] private PanelUI panelUI;
 
     [SerializeField] private SOGameBalance balance;
+    public SOGameBalance Balance => balance;
     
     float distanceFromNode = 20f;
 
@@ -26,6 +30,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         selectPopup.onClickAddChild = OnClickAddChild;
         selectPopup.onClickRemoveNode = OnClickRemoveNode;
+        selectPopup.onClickClose = OnClickCloseButton;
         //selectPopup.onClickHealing = 
     }
 
@@ -49,6 +54,7 @@ public class GameManager : MonoBehaviour
                 if (hit.collider.TryGetComponent(typeof(Node), out var node))
                 {
                     selectPopup.SetTargetNode((Node) node,((Node) node).children.Count < balance.MaxChildCount,node != tree.roots);
+                    panelUI.SetStatusUII(((Node)node).currentStatus);
                     
                     cameraMove.FocusToTarget(node.transform.position);
                 }
@@ -86,6 +92,11 @@ public class GameManager : MonoBehaviour
         SetSpawnerLeafNodeList();
     }
 
+    private void OnClickCloseButton(Node node)
+    {
+        panelUI.CloseStatusUI();
+    }
+    
     private void SetSpawnerLeafNodeList()
     {
         foreach (var spawner in enemySpawner)
@@ -101,6 +112,8 @@ public class GameManager : MonoBehaviour
         {
             spawner.AttackStart();
         }
+
+        wave++;
     }
 
     public Enemy GetEnemyInRange(Vector2 position, float range)
