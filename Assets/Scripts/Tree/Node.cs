@@ -9,7 +9,7 @@ using TMPro;
 [Serializable]
 public struct NodeStatus
 {
-    public enum BulletForm
+    public enum BulletForm 
     {
         None,
         Straight,
@@ -52,6 +52,30 @@ public struct NodeStatus
     {
         string result = "";
 
+        if (attackPower != 0) result += string.Format("공격력 : {0:0.##}\n", attackPower);
+        if (defense != 0) result += string.Format("공격력 : {0:0.##}\n", defense);
+        if (attackSpeed != 0) result += string.Format("공격 속도 : {0:0.##}\n", attackSpeed);
+        if (shotRange != 0) result += string.Format("공격 범위 : {0:0.##}\n", shotRange);
+        if (rotationSpeed != 0) result += string.Format("회전 속도 : {0:0.##}\n", rotationSpeed);
+        
+        if (bulletForm != 0)
+        {
+            switch (bulletForm)
+            {
+                case NodeStatus.BulletForm.Straight:
+                    result += $"발사 타입 : 연사형\n";
+                    break;
+                case NodeStatus.BulletForm.Radial:
+                    result += $"발사 타입 : 방사형\n";
+                    break;
+            }
+        }
+        
+        if (bulletCount != 0) result += string.Format("총알 개수 : {0:0.##}\n", bulletCount);
+        if (bulletSpeed != 0) result += string.Format("총알 속도 : {0:0.##}\n", bulletSpeed);
+        if (bulletLifeTime != 0) result += string.Format("총알 수명 : {0:0.##}\n", bulletLifeTime);
+
+        return result;
 
         if (attackPower != 0) result += $"공격력 : {attackPower}\n";
         if (defense != 0) result += $"방어력 : {defense}\n";
