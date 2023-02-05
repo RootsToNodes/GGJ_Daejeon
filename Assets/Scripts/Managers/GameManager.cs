@@ -6,7 +6,26 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-    public int wave { get; private set; } = 0;
+    [SerializeField]
+    private GameObject overPanel;
+    int wave = 0;
+    public int Wave
+    {
+        get
+        {
+            for (int i = 0; i < enemySpawner.Length; i++)
+            {
+                if (wave == 10)
+                {
+                    while (enemySpawner[i]?.enemiseList.Count != 0)
+                    {
+                    }
+                    overPanel.SetActive(true);
+                }
+            }
+            
+            return wave; } set { wave = value; } }
+
     
     public static GameManager instance { get; private set; }
     
@@ -124,9 +143,9 @@ public class GameManager : MonoBehaviour
             spawner.AttackStart();
         }
 
-        wave++;
+        Wave++;
         
-        panelUI.UpdateWaveText(wave, 10);
+        panelUI.UpdateWaveText(Wave, 10);
     }
 
     public Enemy GetEnemyInRange(Vector2 position, float range)
