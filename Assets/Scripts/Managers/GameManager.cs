@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private SelectPopup selectPopup;
 
+    [SerializeField] private SOGameBalance balance;
+    
     float distanceFromNode = 20f;
 
     private void Awake()
@@ -46,7 +48,8 @@ public class GameManager : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent(typeof(Node), out var node))
                 {
-                    selectPopup.SetTargetNode((Node) node);
+                    selectPopup.SetTargetNode((Node) node,((Node) node).children.Count < balance.MaxChildCount,node != tree.roots);
+                    
                     cameraMove.FocusToTarget(node.transform.position);
                 }
             }

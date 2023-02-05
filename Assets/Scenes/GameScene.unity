@@ -541,6 +541,7 @@ MonoBehaviour:
   cameraMove: {fileID: 1684035940}
   minimapCamera: {fileID: 1342778155}
   selectPopup: {fileID: 1392952992}
+  balance: {fileID: 11400000, guid: 7d1e8566ff4ca41058f90e2dbb18acb8, type: 2}
 --- !u!4 &497872454
 Transform:
   m_ObjectHideFlags: 0

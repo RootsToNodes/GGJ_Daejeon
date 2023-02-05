@@ -8,6 +8,9 @@ public class SelectPopup : MonoBehaviour
 {
     private readonly int IsOnAnimationKey = Animator.StringToHash("IsOn");
 
+    [SerializeField] private GameObject onAddChildButton;
+    [SerializeField] private GameObject onRemoveNodeButton;
+    
     private Node targetNode;
     private Animator animator;
 
@@ -29,10 +32,13 @@ public class SelectPopup : MonoBehaviour
         }
     }
 
-    public void SetTargetNode(Node node)
+    public void SetTargetNode(Node node, bool canAddChild = true, bool canRemoveNode = true)
     {
         animator.SetBool(IsOnAnimationKey, true);
         targetNode = node;
+        
+        onAddChildButton.SetActive(canAddChild);
+        onRemoveNodeButton.SetActive(canRemoveNode);
     }
 
     public void OnClickClose()
