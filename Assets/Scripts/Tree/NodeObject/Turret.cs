@@ -22,7 +22,8 @@ public class Turret : NodeObject
 
     public override void OnDamage(float amount)
     {
-        hp -= Mathf.Max(amount - node.currentStatus.defense, 0);
+        hp -= amount;
+        //hp -= Mathf.Max(amount - node.currentStatus.defense, 0);
 
         if (hp < 0)
         {
@@ -55,6 +56,8 @@ public class Turret : NodeObject
 
         if (!targetEnemy)
         {
+            transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + node.currentStatus.rotationSpeed * Time.deltaTime);
+            
             targetEnemy = GameManager.instance.GetEnemyInRange(transform.position, node.currentStatus.shotRange);
             lastAttackTime = Time.time;
             return;

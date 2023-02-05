@@ -68,18 +68,8 @@ public class GameManager : MonoBehaviour
 
     private void OnClickAddChild(Node node)
     {
-        var status = new NodeStatus
-        {
-            attackPower = 1,
-            attackSpeed = 1,
-            shotRange = 5,
-            bulletSpeed = 1,
-            bulletCount = 1,
-            defense = 5
-        };
-        
-        tree.CreateNewNode(node, status);
         SoundManager.PlaySound(AudioEnum.Build);
+        tree.CreateNewNode(node, Balance.GetRandomStatus(node.nodeLevel));
         SetSpawnerLeafNodeList();
 
         minimapCamera.UpdateMiniMapCamera(tree.treeArea);

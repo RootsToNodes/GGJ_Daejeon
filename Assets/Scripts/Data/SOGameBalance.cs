@@ -22,4 +22,23 @@ public class SOGameBalance : ScriptableObject
 
     [SerializeField] private float[] _possibility;
     public float[] Possibility => _possibility;
+
+    public NodeStatus GetRandomStatus(int level)
+    {
+        var status = new NodeStatus();
+        
+        var possibility = _difficultCurve.Evaluate(level / (float) _maxLevel);
+
+        if (Random.value < possibility) status.attackPower = Random.Range(0, MaxNodeStatus.attackPower);
+        if (Random.value < possibility) status.attackSpeed = Random.Range(0, MaxNodeStatus.attackSpeed);
+        if (Random.value < possibility) status.shotRange = Random.Range(0, MaxNodeStatus.shotRange);
+        if (Random.value < possibility) status.rotationSpeed = Random.Range(0, MaxNodeStatus.rotationSpeed);
+        if (Random.value < possibility) status.bulletForm = (NodeStatus.BulletForm)Random.Range(0, (int)MaxNodeStatus.bulletForm);
+        if (Random.value < possibility) status.bulletCount = Random.Range(0, MaxNodeStatus.bulletCount);
+        if (Random.value < possibility) status.bulletSpeed = Random.Range(0, MaxNodeStatus.bulletSpeed);
+        if (Random.value < possibility) status.bulletLifeTime = Random.Range(0, MaxNodeStatus.bulletLifeTime);
+        if (Random.value < possibility) status.defense = Random.Range(0, MaxNodeStatus.defense);
+
+        return status;
+    }
 }

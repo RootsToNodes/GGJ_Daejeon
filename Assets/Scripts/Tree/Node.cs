@@ -9,7 +9,7 @@ using TMPro;
 [Serializable]
 public struct NodeStatus
 {
-    public enum BulletForm
+    public enum BulletForm 
     {
         None,
         Straight,
@@ -52,6 +52,30 @@ public struct NodeStatus
     {
         string result = "";
 
+        if (attackPower != 0) result += string.Format("공격력 : {0:0.##}\n", attackPower);
+        if (defense != 0) result += string.Format("공격력 : {0:0.##}\n", defense);
+        if (attackSpeed != 0) result += string.Format("공격 속도 : {0:0.##}\n", attackSpeed);
+        if (shotRange != 0) result += string.Format("공격 범위 : {0:0.##}\n", shotRange);
+        if (rotationSpeed != 0) result += string.Format("회전 속도 : {0:0.##}\n", rotationSpeed);
+        
+        if (bulletForm != 0)
+        {
+            switch (bulletForm)
+            {
+                case NodeStatus.BulletForm.Straight:
+                    result += $"발사 타입 : 연사형\n";
+                    break;
+                case NodeStatus.BulletForm.Radial:
+                    result += $"발사 타입 : 방사형\n";
+                    break;
+            }
+        }
+        
+        if (bulletCount != 0) result += string.Format("총알 개수 : {0:0.##}\n", bulletCount);
+        if (bulletSpeed != 0) result += string.Format("총알 속도 : {0:0.##}\n", bulletSpeed);
+        if (bulletLifeTime != 0) result += string.Format("총알 수명 : {0:0.##}\n", bulletLifeTime);
+
+        return result;
 
         if (attackPower != 0) result += $"공격력 : {attackPower}\n";
         if (defense != 0) result += $"방어력 : {defense}\n";
@@ -100,7 +124,7 @@ public class Node : MonoBehaviour
     public List<Node> children = new List<Node>();
     public int nodeLevel { get; private set; }
 
-    public float hp { get; private set; }
+    public float hp { get; private set; } = 25;
 
     private readonly UnityEvent<float> onHealing = new UnityEvent<float>();
     private UnityAction<Node> onDestroy;
@@ -128,7 +152,7 @@ public class Node : MonoBehaviour
 
         this.parent = parent;
         this.status = status;
-        currentStatus = CalculateStatus(status);
+        currentStatus = CalculateStatus(new NodeStatus());
 
         if (parent == null)
         {
@@ -141,13 +165,14 @@ public class Node : MonoBehaviour
 
         this.onDestroy = onDestroy;
 
-        turret.Initialization(this, 100);
-        barrier.Initialization(this, 100);
+        turret.Initialization(this, 25);
+        barrier.Initialization(this, 50);
 
         SetEvents();
         turret.SetEnable(true);
 
         CalculateNodeLevel();
+        SetHpUI();
     }
 
     private void SetEvents()
@@ -222,18 +247,24 @@ public class Node : MonoBehaviour
         }
         else
         {
-            hp -= Mathf.Max(amount - currentStatus.defense, 0);
+            hp -= amount;
+            //hp -= Mathf.Max(amount - currentStatus.defense, 0);
 
-            if (hp < 0)
+            if (hp <= 0)
             {
                 onDestroy?.Invoke(this);
                 SoundManager.PlaySound(AudioEnum.Defeat);
             }
         }
+
+        SetHpUI();
     }
 
     private void SetHpUI()
     {
-        var tortalMaxHp = 500;
+        var currentHP = hp + barrier.hp + turret.hp;
+        hpGuage.fillAmount = currentHP / 100;
+
+        hpText.text = $"{currentHP}/{100}";
     }
 }

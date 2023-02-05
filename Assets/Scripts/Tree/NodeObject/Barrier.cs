@@ -6,7 +6,8 @@ public class Barrier : NodeObject
 {
     public override void OnDamage(float amount)
     {
-        hp -= Mathf.Max(amount - node.currentStatus.defense, 0);
+        hp -= amount;
+        // hp -= Mathf.Max(amount - node.currentStatus.defense, 0);
 
         if (hp < 0)
         {
