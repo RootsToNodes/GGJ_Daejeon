@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b26c9c8245c049cfb49bc48b3957d3f, type: 3}
   m_Name: Balance Data
   m_EditorClassIdentifier: 
+  _addChildCost: 50
+  _removeNodeCost: 10
+  _repairCost: 10
   _maxLevel: 10
   _maxChildCount: 3
   _difficultCurve:
@@ -42,7 +45,7 @@ MonoBehaviour:
     attackPower: 2
     attackSpeed: 1
     shotRange: 3
-    rotationSpeed: 15
+    rotationSpeed: 20
     bulletForm: 0
     bulletCount: 1
     bulletSpeed: 1
