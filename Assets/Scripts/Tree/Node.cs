@@ -53,7 +53,7 @@ public struct NodeStatus
         string result = "";
 
         if (attackPower != 0) result += string.Format("공격력 : {0:0.##}\n", attackPower);
-        if (defense != 0) result += string.Format("공격력 : {0:0.##}\n", defense);
+        if (defense != 0) result += string.Format("방어력 : {0:0.##}\n", defense);
         if (attackSpeed != 0) result += string.Format("공격 속도 : {0:0.##}\n", attackSpeed);
         if (shotRange != 0) result += string.Format("공격 범위 : {0:0.##}\n", shotRange);
         if (rotationSpeed != 0) result += string.Format("회전 속도 : {0:0.##}\n", rotationSpeed);

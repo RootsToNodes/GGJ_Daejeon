@@ -221,6 +221,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bd0422a86f8615c45a663cb8b176b479, type: 2}
   - {fileID: 11400000, guid: 9fbbdc7faf64948439444bb86f17256d, type: 2}
   - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
   trailObject: {fileID: 0}
 --- !u!1 &115524327
 GameObject:
@@ -519,7 +524,7 @@ PrefabInstance:
     - target: {fileID: 5007878247485305331, guid: 759dfb9e747fb4c9b8114d0bafb74cec,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 999
       objectReference: {fileID: 0}
     - target: {fileID: 5007878247485305331, guid: 759dfb9e747fb4c9b8114d0bafb74cec,
         type: 3}
@@ -670,6 +675,11 @@ MonoBehaviour:
   enemydata:
   - {fileID: 11400000, guid: bd0422a86f8615c45a663cb8b176b479, type: 2}
   - {fileID: 11400000, guid: 9fbbdc7faf64948439444bb86f17256d, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
   - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
   trailObject: {fileID: 0}
 --- !u!4 &589804405
@@ -1128,6 +1138,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bd0422a86f8615c45a663cb8b176b479, type: 2}
   - {fileID: 11400000, guid: 9fbbdc7faf64948439444bb86f17256d, type: 2}
   - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
+  - {fileID: 11400000, guid: 171f40c505d1ae749ab1c7c96cf49a42, type: 2}
   trailObject: {fileID: 0}
 --- !u!1 &1620146462
 GameObject:
@@ -1274,7 +1289,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684035933}
   m_LocalRotation: {x: -0.13052624, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -2.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1671,6 +1686,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 497872453}
+    - target: {fileID: 3815864426562983217, guid: b1295d619e1294af9a8da72e730fd99f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5903722557903628584, guid: b1295d619e1294af9a8da72e730fd99f,
         type: 3}
       propertyPath: m_AnchorMax.y

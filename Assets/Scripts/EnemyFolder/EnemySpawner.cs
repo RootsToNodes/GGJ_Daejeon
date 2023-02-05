@@ -45,16 +45,16 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         wait = new WaitForSeconds(time);
-        waveLevelDictionary.Add(1, 5);
-        waveLevelDictionary.Add(2, 10);
-        waveLevelDictionary.Add(3, 15);
-        waveLevelDictionary.Add(4, 20);
-        waveLevelDictionary.Add(5, 40);
-        waveLevelDictionary.Add(6, 45);
-        waveLevelDictionary.Add(7, 50);
-        waveLevelDictionary.Add(8, 55);
-        waveLevelDictionary.Add(9, 60);
-        waveLevelDictionary.Add(10, 90);
+        waveLevelDictionary.Add(1, 2);
+        waveLevelDictionary.Add(2, 5);
+        waveLevelDictionary.Add(3, 7);
+        waveLevelDictionary.Add(4, 10);
+        waveLevelDictionary.Add(5, 20);
+        waveLevelDictionary.Add(6, 22);
+        waveLevelDictionary.Add(7, 25);
+        waveLevelDictionary.Add(8, 28);
+        waveLevelDictionary.Add(9, 32);
+        waveLevelDictionary.Add(10, 50);
     }
 
     public void AttackStart()
@@ -74,7 +74,7 @@ public class EnemySpawner : MonoBehaviour
             var _randomPosY = Random.Range(-1f, 1f);
 
             var pos = new Vector3(transform.position.x + _randomPosX, transform.position.y + _randomPosY);
-            var enemyData = enemydata[Random.Range(0,_randomNum-1)];
+            var enemyData = enemydata[Random.Range(0,enemydata.Count-1)];
             var enemy = Instantiate(enemyData.EnemyPrefab, pos, Quaternion.identity).GetComponent<Enemy>();
             enemy.Initialize(enemyData, OnEnemyDie);
 
