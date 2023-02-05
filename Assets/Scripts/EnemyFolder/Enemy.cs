@@ -89,6 +89,12 @@ public class Enemy : MonoBehaviour
             if (currentNode == null)
             {
                 currentNode = nextTargetNode;
+
+                while (currentNode.children.Count >= 1)
+                {
+                    currentNode = currentNode.children[0];
+                }
+                
                 SetNextNode();
                 isAttacking = false;
             }

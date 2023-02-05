@@ -43,9 +43,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   _initialNodeStatus:
     attackPower: 2
-    attackSpeed: 1
+    attackSpeed: -0.5
     shotRange: 3
-    rotationSpeed: 20
+    rotationSpeed: 30
     bulletForm: 0
     bulletCount: 1
     bulletSpeed: 1

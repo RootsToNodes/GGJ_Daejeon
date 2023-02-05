@@ -41,7 +41,7 @@ public class DataManager : Manager<DataManager>
     {
         var instance = GetInstance();
         
-        if (instance.resourse.money > money)
+        if (instance.resourse.money >= money)
         {
             instance.resourse.money -= money;
             instance.PrintResource();

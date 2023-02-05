@@ -33,7 +33,7 @@ public struct NodeStatus
     {
         var status = new NodeStatus();
         status.attackPower = a.attackPower + b.attackPower;
-        status.attackSpeed = a.attackSpeed + b.attackSpeed;
+        status.attackSpeed = a.attackSpeed - b.attackSpeed;
 
         status.shotRange = a.shotRange + b.shotRange;
         status.rotationSpeed = a.rotationSpeed + b.rotationSpeed;
@@ -74,31 +74,6 @@ public struct NodeStatus
         if (bulletCount != 0) result += string.Format("총알 개수 : {0:0.##}\n", bulletCount);
         if (bulletSpeed != 0) result += string.Format("총알 속도 : {0:0.##}\n", bulletSpeed);
         if (bulletLifeTime != 0) result += string.Format("총알 수명 : {0:0.##}\n", bulletLifeTime);
-
-        return result;
-
-        if (attackPower != 0) result += $"공격력 : {attackPower}\n";
-        if (defense != 0) result += $"방어력 : {defense}\n";
-        if (attackSpeed != 0) result += $"공격 속도 : {attackSpeed}\n";
-        if (shotRange != 0) result += $"공격 범위: {shotRange}\n";
-        if (rotationSpeed != 0) result += $"회전 속도 : {rotationSpeed}\n";
-
-        if (bulletForm != 0)
-        {
-            switch (bulletForm)
-            {
-                case NodeStatus.BulletForm.Straight:
-                    result += $"발사 타입 : 연사형\n";
-                    break;
-                case NodeStatus.BulletForm.Radial:
-                    result += $"발사 타입 : 방사형\n";
-                    break;
-            }
-        }
-
-        if (bulletCount != 0) result += $"총알 개수 : {bulletCount}\n";
-        if (bulletSpeed != 0) result += $"총알 속도 : {bulletSpeed}\n";
-        if (bulletLifeTime != 0) result += $"총알 수명 : {bulletLifeTime}\n";
 
         return result;
     }
