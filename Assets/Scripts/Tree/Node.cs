@@ -124,7 +124,7 @@ public class Node : MonoBehaviour
     public List<Node> children = new List<Node>();
     public int nodeLevel { get; private set; }
 
-    public float hp { get; private set; }
+    public float hp { get; private set; } = 25;
 
     private readonly UnityEvent<float> onHealing = new UnityEvent<float>();
     private UnityAction<Node> onDestroy;
@@ -165,13 +165,14 @@ public class Node : MonoBehaviour
 
         this.onDestroy = onDestroy;
 
-        turret.Initialization(this, 100);
-        barrier.Initialization(this, 100);
+        turret.Initialization(this, 25);
+        barrier.Initialization(this, 50);
 
         SetEvents();
         turret.SetEnable(true);
 
         CalculateNodeLevel();
+        SetHpUI();
     }
 
     private void SetEvents()
@@ -246,17 +247,23 @@ public class Node : MonoBehaviour
         }
         else
         {
-            hp -= Mathf.Max(amount - currentStatus.defense, 0);
+            hp -= amount;
+            //hp -= Mathf.Max(amount - currentStatus.defense, 0);
 
-            if (hp < 0)
+            if (hp <= 0)
             {
                 onDestroy?.Invoke(this);
             }
         }
+
+        SetHpUI();
     }
 
     private void SetHpUI()
     {
-        var tortalMaxHp = 500;
+        var currentHP = hp + barrier.hp + turret.hp;
+        hpGuage.fillAmount = currentHP / 100;
+
+        hpText.text = $"{currentHP}/{100}";
     }
 }

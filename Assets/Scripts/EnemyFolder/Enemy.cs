@@ -154,7 +154,7 @@ public class Enemy : MonoBehaviour
             Shake();
         }
         
-        if ((transform.position - currentNode.transform.position).sqrMagnitude > attackRange * attackRange * 2)
+        if ((transform.position - currentNode.transform.position).sqrMagnitude > (attackRange * 2) * (attackRange * 2))
         {
             isAttacking = false;
         }

@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76330bd5e1fe9594496a989f65a9d4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 0.5
+  attackRange: 1
   shakeDecay: 0.01
   shakeIntensity: 0.4
   isShaking: 0

@@ -21,7 +21,8 @@ public class Turret : NodeObject
 
     public override void OnDamage(float amount)
     {
-        hp -= Mathf.Max(amount - node.currentStatus.defense, 0);
+        hp -= amount;
+        //hp -= Mathf.Max(amount - node.currentStatus.defense, 0);
 
         if (hp < 0)
         {
@@ -39,7 +40,6 @@ public class Turret : NodeObject
 
     public void SetEnable(bool enable)
     {
-        
         isOn = enable;
         gun.SetActive(enable);
     }
