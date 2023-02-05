@@ -133,7 +133,6 @@ public class Enemy : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(this.transform.position, unitedPos, moveDelta);
 
-        Debug.Log(currentNode +"+"+ currentNode.transform.position);
         float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle + 90);
         
@@ -216,7 +215,7 @@ public class Enemy : MonoBehaviour
             default:
                 break;
         }
-        
+        GameManager.instance.CheckEndGame();
         Destroy(gameObject);
     }
     

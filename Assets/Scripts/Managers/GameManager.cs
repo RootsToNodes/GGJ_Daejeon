@@ -12,19 +12,7 @@ public class GameManager : MonoBehaviour
     public int Wave
     {
         get
-        {
-            for (int i = 0; i < enemySpawner.Length; i++)
-            {
-                if (wave == 10)
-                {
-                    while (enemySpawner[i]?.enemiseList.Count != 0)
-                    {
-                    }
-                    overPanel.SetActive(true);
-                }
-            }
-            
-            return wave; } set { wave = value; } }
+        {return wave; } set { wave = value; } }
 
     
     public static GameManager instance { get; private set; }
@@ -58,6 +46,16 @@ public class GameManager : MonoBehaviour
         SetSpawnerLeafNodeList();
     }
 
+    public void CheckEndGame()
+    {
+        for (int i = 0; i < enemySpawner.Length; i++)
+        {
+            if (wave == 10 && enemySpawner[i]?.enemiseList.Count == 0)
+            {
+                overPanel.SetActive(true);
+            }
+        }
+    }
     private void Update()
     {
         CheckInput();
@@ -72,9 +70,9 @@ public class GameManager : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent(typeof(Node), out var node))
                 {
-                    selectPopup.SetTargetNode((Node) node,((Node) node).children.Count < balance.MaxChildCount,node != tree.roots);
+                    selectPopup.SetTargetNode((Node)node, ((Node)node).children.Count < balance.MaxChildCount, node != tree.roots);
                     panelUI.SetStatusUII(((Node)node).currentStatus);
-                    
+
                     cameraMove.FocusToTarget(node.transform.position);
                 }
             }
@@ -83,6 +81,7 @@ public class GameManager : MonoBehaviour
                 selectPopup.OnClickClose();
             }
         }
+ 
     }
 
     private void OnClickAddChild(Node node)
@@ -138,9 +137,12 @@ public class GameManager : MonoBehaviour
 
     public void WaveStart()
     {
-        foreach (var spawner in enemySpawner)
+        if (wave <= 10)
         {
-            spawner.AttackStart();
+            foreach (var spawner in enemySpawner)
+            {
+                spawner.AttackStart();
+            }
         }
 
         Wave++;
