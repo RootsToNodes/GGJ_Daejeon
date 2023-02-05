@@ -66,7 +66,6 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator GenerateEnemy()
     {
         Debug.Log(leafNodeList.Count);
-        enemiseList.Clear();
         while (true)
         {
             var _randomNum = System.Enum.GetValues(typeof(EnemyType)).Length;

@@ -137,17 +137,16 @@ public class GameManager : MonoBehaviour
 
     public void WaveStart()
     {
-        if (wave <= 10)
+        if (wave < 10)
         {
             foreach (var spawner in enemySpawner)
             {
                 spawner.AttackStart();
             }
-        }
+            Wave++;
+            panelUI.UpdateWaveText(Wave, 10);
 
-        Wave++;
-        
-        panelUI.UpdateWaveText(Wave, 10);
+        }
     }
 
     public Enemy GetEnemyInRange(Vector2 position, float range)
